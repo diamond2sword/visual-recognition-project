@@ -1,0 +1,23 @@
+{
+    "Kurzgesagt": {
+        "images": [],
+        "links": [
+            "https://www.youtube.com/watch?v=Us2Z-WC9rao&t=18s"
+        ],
+        "strings": {}
+    },
+    "Mr-Bean": {
+        "images": [],
+        "links": [
+            "https://www.youtube.com/watch?v=vMZYGaD-zxA&t=26s"
+        ],
+        "strings": {}
+    },
+    "TimersRus": {
+        "images": [],
+        "links": [
+            "https://www.youtube.com/watch?v=E6z6c1NibwY"
+        ],
+        "strings": {}
+    }
+}
