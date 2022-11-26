@@ -14,7 +14,7 @@
             "https://www.youtube.com/watch?v=vMZYGaD-zxA&t=26s"
         ],
         "strings": {
-            "search_query" : "images from  cartoon videos"
+            "search_query" : "images from mr Bean cartoon videos"
         }
     },
     "TimersRus": {
@@ -22,6 +22,8 @@
         "links": [
             "https://www.youtube.com/watch?v=E6z6c1NibwY"
         ],
-        "strings": "images from minecraft gameplay videos"
+        "strings": {
+            "search_query" : "images from minecraft gameplay videos"
+        }
     }
 }
