@@ -4,20 +4,26 @@
         "links": [
             "https://www.youtube.com/watch?v=Us2Z-WC9rao&t=18s"
         ],
-        "strings": {}
+        "strings": {
+            "search_query" : "images from Kurzgesagt videos"
+        }
     },
     "Mr-Bean": {
         "images": [],
         "links": [
             "https://www.youtube.com/watch?v=vMZYGaD-zxA&t=26s"
         ],
-        "strings": {}
+        "strings": {
+            "search_query" : "images from  cartoon videos"
+        }
     },
     "TimersRus": {
         "images": [],
         "links": [
             "https://www.youtube.com/watch?v=E6z6c1NibwY"
         ],
-        "strings": {}
+        "strings": {
+            "images from minecraft gameplay videos"
+        }
     }
 }
