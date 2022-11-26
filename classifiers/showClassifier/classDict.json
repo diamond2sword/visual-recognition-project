@@ -22,8 +22,6 @@
         "links": [
             "https://www.youtube.com/watch?v=E6z6c1NibwY"
         ],
-        "strings": {
-            "images from minecraft gameplay videos"
-        }
+        "strings": "images from minecraft gameplay videos"
     }
 }
