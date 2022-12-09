@@ -43,6 +43,9 @@ include_dependencies_default () {
     include PATHS
     include FORCE_INSTALL 5
     include TOGGLE
+    include CUSTOM_EXIT
+    include CUSTOM_ROOT_START
+    include USER_COMMANDS
 }
 EOF
 )
@@ -62,6 +65,7 @@ PROJECT_PATH="$ROOT_PATH/$PROJECT_NAME"
 TEST_DATASET_PATH="$PROJECT_PATH/$PROJECT_TEST_DATASET_NAME"
 CLASS_PATHS=(ls -d $TEST_DATA_SET_PATH/*/)
 ANY_CLASS_PATH="$TEST_DATASET_PATH/$PROJECT_ANY_CLASS_NAME"
+PROJECT_INSTALL_NAME="install.py"
 EOF
 )
 
@@ -221,29 +225,25 @@ EOF
 
 START_ROOT=$(cat << \EOF
 ####################################################################
-autostart () {
-    custom_root_start
+autostart () { 
     include_dependency_strings
     include_dependency_scripts
+    custom_root_start_main
     fix_unresolved_hostname_error
     install_dependency_packages #TOGGLE_FIRST_BOOT
     install_visual_recognition_project #TOGGLE_FIRST_BOOT
     disable_first_boot
-    include_user_commands
-}
-
-custom_root_start () {
-    source $DEPENDENCY_PATH/CUSTOM_ROOT_START.sh
-}
-
-include_user_commands () {
-    source $DEPENDENCY_PATH/USER_COMMANDS.sh
 }
 
 install_visual_recognition_project () {
     mkdir -p $PROJECT_PATH
-    svn export $PROJECT_GITHUB_LINK $PROJECT_PATH
+    svn export --force $PROJECT_GITHUB_LINK $PROJECT_PATH
     python3 $PROJECT_PATH/$PROJECT_INSTALL_NAME
+}
+
+disable_first_boot () {
+    toggle_line_off FIRST_BOOT $DEPENDENCY_PATH/START_ROOT.sh
+    return
 }
 
 include_dependency_scripts () {
@@ -253,11 +253,6 @@ include_dependency_scripts () {
 
 include_dependency_strings () {
     source $DEPENDENCY_PATH/STRINGS.sh
-}
-
-disable_first_boot () {
-    toggle_line_off FIRST_BOOT $DEPENDENCY_PATH/START_HOME.sh
-    return
 }
 
 fix_unresolved_hostname_error () {
@@ -285,7 +280,7 @@ autostart () {
     include_dependency_strings
     include_dependency_scripts
     start_ubuntu
-    custom_exit
+    custom_exit_main
 }
 
 include_dependency_scripts () {
@@ -295,10 +290,6 @@ include_dependency_scripts () {
 
 include_dependency_strings () {
     source $DEPENDENCY_PATH/STRINGS.sh
-}
-
-custom_exit () {
-    source $DEPENDENCY_PATH/CUSTOM_EXIT.sh
 }
 
 start_ubuntu () {
@@ -316,7 +307,7 @@ EOF
 
 CUSTOM_EXIT=$(cat << \EOF
 ####################################################################
-main () {
+custom_exit_main () {
     include_dependency_strings
     include_dependency_scripts
     custom_exit
@@ -361,16 +352,14 @@ include_dependency_strings () {
 
 DEPENDENCY_PATH="/data/data/com.termux/files/home/dependency-files"
 
-main
 EOF
 )
 
 CUSTOM_ROOT_START=$(cat << \EOF
-
-main () {
+####################################################################
+custom_root_start_main () {
     include_dependency_strings
     include_dependency_scripts
-    include_user_commands
     custom_root_start
 }
 
@@ -399,10 +388,6 @@ start_root_start_classify () {
     project-classify
 }
 
-include_user_commands () {
-    source $DEPENDENCY_PATH/USER_COMMANDS.sh
-}
-
 include_dependency_scripts () {
     source $DEPENDENCY_PATH/SCRIPTS.sh
     include_dependencies_default
@@ -414,7 +399,6 @@ include_dependency_strings () {
 
 DEPENDENCY_PATH="/data/data/com.termux/files/home/dependency-files"
 
-main
 EOF
 )
 
@@ -435,7 +419,6 @@ project-classify () {
 include_custom_exit_script () {
     source $DEPENDENCY_PATH/CUSTOM_EXIT.sh
 }
-
 
 EOF
 )
