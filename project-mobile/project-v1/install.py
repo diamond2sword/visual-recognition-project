@@ -1,10 +1,7 @@
-
 def main()->int:
     download_files()
     create_files()
     return 0
-
-
 
 
 def create_files():

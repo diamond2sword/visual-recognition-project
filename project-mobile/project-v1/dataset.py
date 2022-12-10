@@ -55,7 +55,7 @@ def with_dim_added_to(pic):
 
 def get_test_dataset_pic_names():
     picNames = []
-    classLabels = get_class_labels()
+    classLabels = get_class_labels(includeAnyClass=True)
     testDatasetPath = get_test_dataset_path()
     for classLabel in classLabels:
         classPath = f"{testDatasetPath}/{classLabel}"
@@ -87,7 +87,8 @@ def is_pic(picPath):
     isPic = True
     try:
         open_as_pil_image(picPath)
-    except:
+    except Exception as e:
+        print(e)
         isPic = False
     return isPic
        
