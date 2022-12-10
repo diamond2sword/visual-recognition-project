@@ -1,5 +1,7 @@
 #!/bin/bash
 
+
+
 STRINGS=$(cat << \EOF
 ####################################################################
 DEPENDENCY_PATH="/data/data/com.termux/files/home/dependency-files"
@@ -16,6 +18,7 @@ PROJECT_MAIN_FILE_NAME="test_onnx.py"
 PROJECT_ANY_CLASS_NAME="Any"
 PROJECT_NAME="project"
 PROJECT_TEST_DATASET_NAME="test-dataset"
+RUN_PROJECT_AT_START=true
 EOF
 )
 
@@ -41,11 +44,11 @@ include_dependencies_default () {
     include PATHS
     include FORCE_INSTALL 5
     include TOGGLE
-    include CUSTOM_EXIT
-    include CUSTOM_ROOT_START
 }
 EOF
 )
+
+
 
 PATHS=$(cat << \EOF
 ####################################################################
@@ -61,6 +64,7 @@ TEST_DATASET_PATH="$PROJECT_PATH/$PROJECT_TEST_DATASET_NAME"
 CLASS_PATHS=(ls -d $TEST_DATA_SET_PATH/*/)
 ANY_CLASS_PATH="$TEST_DATASET_PATH/$PROJECT_ANY_CLASS_NAME"
 PROJECT_INSTALL_NAME="install.py"
+PROJECT_MAIN_FILE_PATH="$PROJECT_PATH/$PROJECT_MAIN_FILE_NAME"
 EOF
 )
 
@@ -186,6 +190,7 @@ force_install () {
 EOF
 )
 
+
 TOGGLE=$(cat << \EOF
 ####################################################################
 toggle_line_off () {
@@ -203,21 +208,10 @@ toggle_line_on () {
     sed -e "/$toggle_prefix$toggle_name/ s/^#OFF#//" -i $file_path
 }
 
-EOF
-)
-
-CUSTOM_EXIT=$(cat << \EOF
-####################################################################
-custom_exit_main () {
-    include_dependency_strings
-    include_dependency_scripts
-    custom_exit
-}
-
-custom_exit () {
-    exit_ubuntu #TOGGLE_CUSTOM_EXIT_UBUNTU
-#OFF#    exit_termux #TOGGLE_CUSTOM_EXIT_TERMUX
-#OFF#    exit_classify #TOGGLE_CUSTOM_EXIT_CLASSIFY
+set_root_start () {
+    mode=$1
+    toggle_line_off CUSTOM_ROOT_START $DEPENDENCY_PATH/CUSTOM_ROOT_START.sh
+    toggle_line_on CUSTOM_ROOT_START_$mode $DEPENDENCY_PATH/CUSTOM_ROOT_START.sh
 }
 
 set_exit () {
@@ -226,8 +220,21 @@ set_exit () {
     toggle_line_on CUSTOM_EXIT_$mode $DEPENDENCY_PATH/CUSTOM_EXIT.sh
 }
 
+EOF
+)
+
+
+CUSTOM_EXIT=$(cat << \EOF
+####################################################################
+custom_exit_main () {
+    exit_ubuntu #TOGGLE_CUSTOM_EXIT_UBUNTU
+#OFF#    exit_termux #TOGGLE_CUSTOM_EXIT_TERMUX
+#OFF#    exit_classify #TOGGLE_CUSTOM_EXIT_CLASSIFY
+}
+
 exit_classify () {
     set_exit TERMUX
+    mkdir -p $ANY_CLASS_PATH
     termux-camera-photo -c 0 $ANY_CLASS_PATH/$PICTURE_NAME
     source $DEPENDENCY_PATH/START_HOME.sh
     return
@@ -242,38 +249,15 @@ exit_ubuntu () {
     return
 }
 
-include_dependency_scripts () {
-    source $DEPENDENCY_PATH/SCRIPTS.sh
-    include_dependencies_default
-}
-
-include_dependency_strings () {
-    source $DEPENDENCY_PATH/STRINGS.sh
-}
-
-DEPENDENCY_PATH="/data/data/com.termux/files/home/dependency-files"
-
 EOF
 )
 
 CUSTOM_ROOT_START=$(cat << \EOF
 ####################################################################
 custom_root_start_main () {
-    include_dependency_strings
-    include_dependency_scripts
-    custom_root_start
-}
-
-custom_root_start () {
-#OFF#    start_root_empty #TOGGLE_CUSTOM_ROOT_START_EMPTY
+    start_root_empty #TOGGLE_CUSTOM_ROOT_START_EMPTY
 #OFF#    start_root_classify #TOGGLE_CUSTOM_ROOT_START_CLASSIFY
-    start_root_start_classify #TOGGLE_CUSTOM_ROOT_START_START_CLASSIFY
-}
-
-set_root_start () {
-    mode=$1
-    toggle_line_off CUSTOM_ROOT_START $DEPENDENCY_PATH/CUSTOM_ROOT_START.sh
-    toggle_line_on CUSTOM_ROOT_START_$mode $DEPENDENCY_PATH/CUSTOM_ROOT_START.sh
+#OFF#    start_root_start_classify #TOGGLE_CUSTOM_ROOT_START_START_CLASSIFY
 }
 
 start_root_empty () {
@@ -281,25 +265,15 @@ start_root_empty () {
 }
 
 start_root_classify () {
-    python3 $PROJECT_PATH/test_onnx.py
+    python3 $PROJECT_MAIN_FILE_PATH
     set_root_start EMPTY
 }
 
 start_root_start_classify () {
-    project-classify
+    set_root_start CLASSIFY
+    set_exit CLASSIFY
+    exit
 }
-
-include_dependency_scripts () {
-    source $DEPENDENCY_PATH/SCRIPTS.sh
-    include_dependencies_default
-}
-
-include_dependency_strings () {
-    source $DEPENDENCY_PATH/STRINGS.sh
-}
-
-DEPENDENCY_PATH="/data/data/com.termux/files/home/dependency-files"
-
 EOF
 )
 
@@ -309,11 +283,6 @@ ROOT_COMMANDS=$(cat << \EOF
 project-classify () {
     set_exit CLASSIFY
     set_root_start CLASSIFY
-    exit
-}
-
-project-exit () {
-    set_exit TERMUX
     exit
 }
 
@@ -332,11 +301,14 @@ EOF
 HOME_COMMANDS=$(cat << \EOF
 ####################################################################
 project-classify () {
+    set_exit TERMUX
     set_root_start START_CLASSIFY
-    source $DEPENDENXY_PATH/START_HOME.sh
+    source $DEPENDENCY_PATH/START_HOME.sh
 }
 
 project-start () {
+    set_exit TERMUX
+    set_root_start EMPTY
     source $DEPENDENCY_PATH/START_HOME.sh
 }
 
@@ -345,25 +317,34 @@ project-exit () {
     set_root_start EMPTY
     exit
 }
-
 EOF
 )
+
+
 
 START_ROOT=$(cat << \EOF
 ####################################################################
 autostart () { 
     include_dependency_strings
     include_dependency_scripts
-    custom_root_start_main
-    fix_unresolved_hostname_error
-    install_dependency_packages #TOGGLE_FIRST_BOOT
-    install_visual_recognition_project #TOGGLE_FIRST_BOOT
-    disable_first_boot
     include_root_commands
+    fix_unresolved_hostname_error
+    execute_for_first_boot #TOGGLE_FIRST_BOOT
+    execute_custom_root_start
 }
 
-include_root_commands () {
-    source $DEPENDENCY_PATH/ROOT_COMMANDS.sh
+execute_custom_root_start () {
+    source $DEPENDENCY_PATH/CUSTOM_ROOT_START.sh
+    custom_root_start_main
+}
+
+execute_for_first_boot () {
+    disable_first_boot
+    install_dependency_packages
+    install_visual_recognition_project
+    $RUN_PROJECT_AT_START &> /dev/null & {
+        project-classify
+    }
 }
 
 install_visual_recognition_project () {
@@ -372,9 +353,25 @@ install_visual_recognition_project () {
     python3 $PROJECT_PATH/$PROJECT_INSTALL_NAME
 }
 
+install_dependency_packages () {
+    packages=("$PACKAGES_FOR_ROOT")
+    pip3_packages=("$PIP3_PACKAGES_FOR_ROOT")
+    force_install apt ${packages[@]}
+    force_install pip3 ${pip3_packages[@]}
+}
+
 disable_first_boot () {
     toggle_line_off FIRST_BOOT $DEPENDENCY_PATH/START_ROOT.sh
     return
+}
+
+fix_unresolved_hostname_error () {
+    config="$ETC_HOSTS_CONFIG"
+    echo "$config" > "/etc/hosts"
+}
+
+include_root_commands () {
+    source $DEPENDENCY_PATH/ROOT_COMMANDS.sh
 }
 
 include_dependency_scripts () {
@@ -386,32 +383,28 @@ include_dependency_strings () {
     source $DEPENDENCY_PATH/STRINGS.sh
 }
 
-fix_unresolved_hostname_error () {
-    config="$ETC_HOSTS_CONFIG"
-    echo "$config" > "/etc/hosts"
-}
-
-install_dependency_packages () {
-    packages=("$PACKAGES_FOR_ROOT")
-    pip3_packages=("$PIP3_PACKAGES_FOR_ROOT")
-    force_install apt ${packages[@]}
-    force_install pip3 ${pip3_packages[@]}
-}
-
 DEPENDENCY_PATH="/data/data/com.termux/files/home/dependency-files"
 
 autostart
 EOF
 )
 
+
+
+
 START_HOME=$(cat << \EOF
 ####################################################################
 autostart () {
     include_dependency_strings
     include_dependency_scripts
-    start_ubuntu
-    custom_exit_main
     include_home_commands
+    start_ubuntu
+    execute_custom_exit
+}
+
+execute_custom_exit () {
+    source $DEPENDENCY_PATH/CUSTOM_EXIT.sh
+    custom_exit_main
 }
 
 include_home_commands () {
@@ -507,9 +500,6 @@ install_dependency_packages () {
     force_install apt ${packages[@]}
 }
 
-
-
-
 install_ubuntu_root_fs () {
     git clone https://github.com/MFDGaming/ubuntu-in-termux.git $CLONE_PATH
     ubuntu_installer=$CLONE_PATH/ubuntu.sh
@@ -518,23 +508,14 @@ install_ubuntu_root_fs () {
     yes | bash $ubuntu_installer
 }
 
-
-
-
-
 add_autostarter_scripts () {
     echo "source $DEPENDENCY_PATH/START_ROOT.sh" >> $BASHRC_PATH
     echo "source $DEPENDENCY_PATH/START_HOME.sh" >> $OLD_BASHRC_PATH
 }
 
-
-
-
 start_ubuntu_fs () {
     source $DEPENDENCY_PATH/START_HOME.sh
 }
-
-
 
 get_ubuntu_root_fs () {
     include_dependency_strings
@@ -545,6 +526,5 @@ get_ubuntu_root_fs () {
     add_autostarter_scripts
     start_ubuntu_fs
 }
-
 
 get_ubuntu_root_fs
