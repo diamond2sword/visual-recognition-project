@@ -1,15 +1,13 @@
 #!/bin/bash
 
-
-
 STRINGS=$(cat << \EOF
 ####################################################################
 DEPENDENCY_PATH="/data/data/com.termux/files/home/dependency-files"
-DEPENDENCY_NAMES="PATHS FORCE_INSTALL TOGGLE SCRIPTS STRINGS START_HOME START_ROOT CUSTOM_EXIT CUSTOM_ROOT_START USER_COMMANDS"
+DEPENDENCY_NAMES="PATHS FORCE_INSTALL TOGGLE SCRIPTS STRINGS START_HOME START_ROOT CUSTOM_EXIT CUSTOM_ROOT_START ROOT_COMMANDS HOME_COMMANDS"
 ETC_HOSTS_CONFIG="127.0.0.1 localhost"
 PACKAGES_FOR_HOME="git wget proot vim termux-api"
 PACKAGES_FOR_ROOT="sudo vim python3-pip subversion"
-PIP3_PACKAGES_FOR_ROOT="pillow onnxruntime numpy torchvision gdown"
+PIP3_PACKAGES_FOR_ROOT="pillow onnxruntime numpy torchvision gdown term-image"
 TOGGLE_PREFIX="#TOGGLE_"
 PROJECT_GITHUB_LINK="https://github.com/diamond2sword/visual-recognition-project/trunk/project-mobile/project-v1"
 PICTURE_NAME="test.jpg"
@@ -45,12 +43,9 @@ include_dependencies_default () {
     include TOGGLE
     include CUSTOM_EXIT
     include CUSTOM_ROOT_START
-    include USER_COMMANDS
 }
 EOF
 )
-
-
 
 PATHS=$(cat << \EOF
 ####################################################################
@@ -191,7 +186,6 @@ force_install () {
 EOF
 )
 
-
 TOGGLE=$(cat << \EOF
 ####################################################################
 toggle_line_off () {
@@ -212,16 +206,148 @@ toggle_line_on () {
 EOF
 )
 
+CUSTOM_EXIT=$(cat << \EOF
+####################################################################
+custom_exit_main () {
+    include_dependency_strings
+    include_dependency_scripts
+    custom_exit
+}
+
+custom_exit () {
+    exit_ubuntu #TOGGLE_CUSTOM_EXIT_UBUNTU
+#OFF#    exit_termux #TOGGLE_CUSTOM_EXIT_TERMUX
+#OFF#    exit_classify #TOGGLE_CUSTOM_EXIT_CLASSIFY
+}
+
+set_exit () {
+    mode=$1
+    toggle_line_off CUSTOM_EXIT $DEPENDENCY_PATH/CUSTOM_EXIT.sh
+    toggle_line_on CUSTOM_EXIT_$mode $DEPENDENCY_PATH/CUSTOM_EXIT.sh
+}
+
+exit_classify () {
+    set_exit TERMUX
+    termux-camera-photo -c 0 $ANY_CLASS_PATH/$PICTURE_NAME
+    source $DEPENDENCY_PATH/START_HOME.sh
+    return
+}
+
+exit_termux () {
+    exit
+}
+
+exit_ubuntu () {
+    set_exit TERMUX
+    return
+}
+
+include_dependency_scripts () {
+    source $DEPENDENCY_PATH/SCRIPTS.sh
+    include_dependencies_default
+}
+
+include_dependency_strings () {
+    source $DEPENDENCY_PATH/STRINGS.sh
+}
+
+DEPENDENCY_PATH="/data/data/com.termux/files/home/dependency-files"
+
+EOF
+)
+
+CUSTOM_ROOT_START=$(cat << \EOF
+####################################################################
+custom_root_start_main () {
+    include_dependency_strings
+    include_dependency_scripts
+    custom_root_start
+}
+
+custom_root_start () {
+#OFF#    start_root_empty #TOGGLE_CUSTOM_ROOT_START_EMPTY
+#OFF#    start_root_classify #TOGGLE_CUSTOM_ROOT_START_CLASSIFY
+    start_root_start_classify #TOGGLE_CUSTOM_ROOT_START_START_CLASSIFY
+}
+
+set_root_start () {
+    mode=$1
+    toggle_line_off CUSTOM_ROOT_START $DEPENDENCY_PATH/CUSTOM_ROOT_START.sh
+    toggle_line_on CUSTOM_ROOT_START_$mode $DEPENDENCY_PATH/CUSTOM_ROOT_START.sh
+}
+
+start_root_empty () {
+    return
+}
+
+start_root_classify () {
+    python3 $PROJECT_PATH/test_onnx.py
+    set_root_start EMPTY
+}
+
+start_root_start_classify () {
+    project-classify
+}
+
+include_dependency_scripts () {
+    source $DEPENDENCY_PATH/SCRIPTS.sh
+    include_dependencies_default
+}
+
+include_dependency_strings () {
+    source $DEPENDENCY_PATH/STRINGS.sh
+}
+
+DEPENDENCY_PATH="/data/data/com.termux/files/home/dependency-files"
+
+EOF
+)
 
 
+ROOT_COMMANDS=$(cat << \EOF
+####################################################################
+project-classify () {
+    set_exit CLASSIFY
+    set_root_start CLASSIFY
+    exit
+}
 
+project-exit () {
+    set_exit TERMUX
+    exit
+}
 
+project-start () {
+    return
+}
 
+project-exit () {
+    set_exit TERMUX
+    set_root_start EMPTY
+    exit
+}
+EOF
+)
 
+HOME_COMMANDS=$(cat << \EOF
+####################################################################
+project-classify () {
+    set_root_start START_CLASSIFY
+    source $DEPENDENXY_PATH/START_HOME.sh
+}
 
+project-start () {
+    source $DEPENDENCY_PATH/START_HOME.sh
+}
 
+project-exit () {
+    set_exit TERMUX
+    set_root_start EMPTY
+    exit
+}
 
-
+EOF
+)
 
 START_ROOT=$(cat << \EOF
 ####################################################################
@@ -233,6 +359,11 @@ autostart () {
     install_dependency_packages #TOGGLE_FIRST_BOOT
     install_visual_recognition_project #TOGGLE_FIRST_BOOT
     disable_first_boot
+    include_root_commands
+}
+
+include_root_commands () {
+    source $DEPENDENCY_PATH/ROOT_COMMANDS.sh
 }
 
 install_visual_recognition_project () {
@@ -273,7 +404,6 @@ autostart
 EOF
 )
 
-
 START_HOME=$(cat << \EOF
 ####################################################################
 autostart () {
@@ -281,6 +411,11 @@ autostart () {
     include_dependency_scripts
     start_ubuntu
     custom_exit_main
+    include_home_commands
+}
+
+include_home_commands () {
+    source $DEPENDENCY_PATH/HOME_COMMANDS.sh
 }
 
 include_dependency_scripts () {
@@ -305,123 +440,11 @@ EOF
 
 
 
-CUSTOM_EXIT=$(cat << \EOF
-####################################################################
-custom_exit_main () {
-    include_dependency_strings
-    include_dependency_scripts
-    custom_exit
-}
-
-custom_exit () {
-    exit_ubuntu #TOGGLE_CUSTOM_EXIT_UBUNTU
-#OFF#    exit_termux #TOGGLE_CUSTOM_EXIT_TERMUX
-#OFF#    exit_classify #TOGGLE_CUSTOM_EXIT_CLASSIFY
-}
-
-set_exit () {
-    mode=$1
-    toggle_line_off CUSTOM_EXIT $DEPENDENCY_PATH/CUSTOM_EXIT.sh
-    toggle_line_on CUSTOM_EXIT_$mode $DEPENDENCY_PATH/CUSTOM_EXIT.sh
-}
-
-exit_classify () {
-    set_exit UBUNTU
-    termux-camera-photo -c 0 $ANY_CLASS_PATH/$PICTURE_NAME
-    source $DEPENDENCY_PATH/START_HOME.sh
-    return
-}
-
-exit_termux () {
-    set_exit UBUNTU
-    exit
-}
-
-exit_ubuntu () {
-    return
-}
-
-include_dependency_scripts () {
-    source $DEPENDENCY_PATH/SCRIPTS.sh
-    include_dependencies_default
-}
-
-include_dependency_strings () {
-    source $DEPENDENCY_PATH/STRINGS.sh
-}
-
-DEPENDENCY_PATH="/data/data/com.termux/files/home/dependency-files"
-
-EOF
-)
-
-CUSTOM_ROOT_START=$(cat << \EOF
-####################################################################
-custom_root_start_main () {
-    include_dependency_strings
-    include_dependency_scripts
-    custom_root_start
-}
-
-custom_root_start () {
-    start_root_empty #TOGGLE_CUSTOM_ROOT_START_EMPTY
-#OFF#    start_root_classify #TOGGLE_CUSTOM_ROOT_START_CLASSIFY
-#OFF#    start_root_start_classify #TOGGLE_CUSTOM_ROOT_START_START_CLASSIFY
-}
-
-set_root_start () {
-    mode=$1
-    toggle_line_off CUSTOM_ROOT_START $DEPENDENCY_PATH/CUSTOM_ROOT_START.sh
-    toggle_line_on CUSTOM_ROOT_START_$mode $DEPENDENCY_PATH/CUSTOM_ROOT_START.sh
-}
-
-start_root_empty () {
-    return
-}
-
-start_root_classify () {
-    python3 $PROJECT_PATH/test_onnx.py
-    set_root_start EMPTY
-}
-
-start_root_start_classify () {
-    project-classify
-}
-
-include_dependency_scripts () {
-    source $DEPENDENCY_PATH/SCRIPTS.sh
-    include_dependencies_default
-}
-
-include_dependency_strings () {
-    source $DEPENDENCY_PATH/STRINGS.sh
-}
-
-DEPENDENCY_PATH="/data/data/com.termux/files/home/dependency-files"
-
-EOF
-)
 
 
-USER_COMMANDS=$(cat << \EOF
 
-main () {
-    include_custom_exit_script
-    include_root_custom_start_script
-}
 
-project-classify () {
-    set_exit CLASSIFY
-    set_root_start CLASSIFY
-    exit
-}
 
-include_custom_exit_script () {
-    source $DEPENDENCY_PATH/CUSTOM_EXIT.sh
-}
-
-EOF
-)
 
 
 
