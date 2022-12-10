@@ -1,8 +1,6 @@
 
-
 def to_onnx_input(pic):
-    testTransform = get_test_transforms()
-    pic = testTransform(pic)
+    pic = normalized(pic)
     pic = with_dim_added_to(pic)
     pic = with_memory_moved_to_cpu(pic)
     pic = with_no_grad(pic)
@@ -24,18 +22,6 @@ def get_random_pic_from_test_dataset():
     return [pic, picLabel]
 
 
-def get_test_transforms():
-    picSize = get_pic_size()
-    testTransform = Compose([
-        Resize(picSize),
-        ToTensor(),
-        Normalize(
-            [0.485, 0.456, 0.406],
-            [0.229, 0.224, 0.225]
-        )
-    ])
-    return testTransform
-
 def to_numpy_array(pic):
     pic = pic.numpy()
     pic = pic.astype(float32)
@@ -52,6 +38,30 @@ def with_memory_moved_to_cpu(pic):
 def with_dim_added_to(pic):
     pic = pic.unsqueeze(0)
     return pic
+
+def normalized(pic):
+    normalizeTransform = Compose([
+        ToTensor(),
+        Normalize(
+            [0.485, 0.456, 0.406],
+            [0.229, 0.224, 0.225]
+        )
+    ]) 
+    pic = normalizeTransform(pic)
+    return pic
+   
+def center_of(pic):
+    width, height = pic.size
+    width = min(width, height)
+    picSize = get_pic_size()
+    centerTransform = Sequential(
+        CenterCrop(width),
+        Resize(picSize),
+    )
+    pic = centerTransform(pic)
+    return pic
+
+    
 
 def get_test_dataset_pic_names():
     picNames = []
@@ -91,7 +101,6 @@ def is_pic(picPath):
         print(e)
         isPic = False
     return isPic
-       
 
 class NoInputPictureFoundError(Exception):
     def __str__(self):
@@ -100,10 +109,10 @@ class NoInputPictureFoundError(Exception):
         randClassLabel = get_random_class_label(includeAnyClass=True)
         return f"There's no picture in {testDatasetName}. Please put a picture in the class folders such as class {randClassLabel}, located in {testDatasetPath}/{randClassLabel}."
 
-
 from config import *
 from class_dict_manager import *
-from torchvision.transforms import Compose, Resize, ToTensor, Normalize
+from torchvision.transforms import Compose, Resize, ToTensor, Normalize, CenterCrop
+from torch.nn import Sequential
 from numpy import float32
 from random import shuffle
 from PIL.Image import open as open_as_pil_image

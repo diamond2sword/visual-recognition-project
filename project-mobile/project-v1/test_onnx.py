@@ -5,9 +5,10 @@ def main()->int:
 
 def onnx_classify():
     pic, picLabel = get_random_pic_from_test_dataset()
-
+    
+    pic = center_of(pic)
     print_pic(pic)
-
+    
     model = get_onnx_model()
 
     inputPic = to_onnx_input(pic)
