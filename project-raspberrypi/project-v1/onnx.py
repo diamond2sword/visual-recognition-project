@@ -1,7 +1,4 @@
-def main()->int:
-    classify_from_test_dataset()
-    classify_from_camera()
-    return 0
+
     
 def classify_from_camera(picLabel=None, previewTime=None):
 	if picLabel is None:
@@ -59,4 +56,5 @@ from camera import *
 from numpy import exp
 from onnxruntime import InferenceSession
 if __name__ == "__main__":
-    main()
+    #classify_from_test_dataset()
+    classify_from_camera(previewTime=10)

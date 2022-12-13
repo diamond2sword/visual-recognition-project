@@ -1,4 +1,9 @@
-
+def get_classifier_preview_path():
+	projectPath = get_project_path()
+	name = get_classifier_preview_name()
+	path =f"{projectPath}/{name}"
+	return path
+	
 
 def get_class_dict_path():
     projectPath = get_project_path()
@@ -22,6 +27,9 @@ def get_project_path():
     path = sys.path[0]
     return path
 
+def get_classifier_preview_name():
+	name = "classifier_preview.py"
+	return name
 
 def get_pic_window_name():
 	picName = get_pic_name()

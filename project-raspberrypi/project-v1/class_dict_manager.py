@@ -1,5 +1,9 @@
 
 
+def get_num_of_classes():
+	classLabels = get_class_labels()
+	return len(classLabels)
+
 def get_class_dict():
     classDictPath = get_class_dict_path()
     classDictFile = open(classDictPath, "r")
