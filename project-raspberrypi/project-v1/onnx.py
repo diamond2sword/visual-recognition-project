@@ -1,13 +1,13 @@
 
     
-def classify_from_camera(picLabel=None, previewTime=None):
-	if picLabel is None:
-		picLabel = get_any_class_name()
-	preview_until(time=previewTime)
-	pic = take_photo()
-	pic = center_of(pic)
-	probabilities = simple_classify(pic)
-	show_output(pic, picLabel, probabilities)
+def classify_from_camera(picLabel=None, previewTime=None, mustShowPreview=True):
+    if picLabel is None:
+        picLabel = get_any_class_name()
+    preview_until(time=previewTime, mustShow=mustShowPreview)
+    pic = take_photo()
+    pic = center_of(pic)
+    probabilities = simple_classify(pic)
+    show_output(pic, picLabel, probabilities)
 
 def classify_from_test_dataset(classLabel=None):
 	pic, picLabel = get_random_labeled_pic_from_test_dataset(classLabel=classLabel)
@@ -57,4 +57,4 @@ from numpy import exp
 from onnxruntime import InferenceSession
 if __name__ == "__main__":
     #classify_from_test_dataset()
-    classify_from_camera(previewTime=10)
+    classify_from_camera(previewTime=10, mustShowPreview=False)
