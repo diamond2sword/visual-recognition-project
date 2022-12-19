@@ -1,6 +1,7 @@
 #/bin/bash
 
 main () {
+	check_input_command
 	include_dependency_strings
 	include_dependency_scripts
 	reset_cloned_repo
@@ -23,11 +24,11 @@ add_ssh_key_to_ssh_agent () {
 }
 
 include_dependency_scripts () {
-	eval "$SSH_AUTH_EVAL"
+	$SSH_AUTH_EVAL
 }
 
 include_dependency_strings () {
-	eval "$STRINGS"
+	$STRINGS
 }
 
 STRINGS=$(cat << "EOF"

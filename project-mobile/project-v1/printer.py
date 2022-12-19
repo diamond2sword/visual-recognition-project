@@ -4,7 +4,7 @@
 
 def print_pic(pic):
     pic = to_printable_image(pic)
-    pic.draw()
+    print(f"\n{pic}")
     pass
 
 
