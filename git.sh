@@ -8,12 +8,14 @@ main () {
 }
 
 execute_git_command () {
-	bash -v << EOF
-		$INPUT
-		$ALL_GIT_COMMANDS
+	bash << EOF
+	{
 		$STRINGS
 		$SSH_AUTH_EVAL
+		$ALL_GIT_COMMANDS
+		$INPUT
 		$EXEC_GIT_COMMAND
+	}
 EOF
 }
 
@@ -37,7 +39,7 @@ include_dependency_strings () {
 
 INPUT=$(cat << EOF
 {
-	GIT_COMMAND_NAME=("$@")
+	GIT_COMMAND_NAME=$1
 }
 EOF
 )
@@ -48,6 +50,7 @@ STRINGS=$(cat << "EOF"
 	GH_NAME="diamond2sword"
 	GH_PASSWORD="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"
 	SSH_KEY_PASSPHRASE="for(;C==0;){std::cout<<C++}"
+	DEFAULT_GIT_COMMAND_NAME="GIT_RESET"
 	BRANCH_NAME="main"
 	COMMIT_NAME="update project"
 	PROJECT_NAME="project"
@@ -67,9 +70,50 @@ EOF
 
 EXEC_GIT_COMMAND=$(cat << "EOF"
 {
-	cd "$REPO_PATH"; pwd
-	eval "$GIT_UNSET"
-	eval "${!GIT_COMMAND_NAME}"
+	main () {
+		change_dir_to_repo
+		reset_git_credentials
+		set_input_to_default_if_invalid	
+		exec_git_command
+	}
+	
+	exec_git_command () {
+		eval "${!GIT_COMMAND_NAME}"
+	}
+
+	set_input_to_default_if_invalid () {
+		! is_input_valid && {
+			GIT_COMMAND_NAME=$DEFAULT_GIT_COMMAND_NAME
+		}
+	}	
+
+	reset_git_credentials () {
+		eval "$GIT_UNSET"
+	}
+
+	change_dir_to_repo () {
+		cd "$REPO_PATH"; pwd
+	}
+
+	is_input_valid () {
+		is_input_empty && return 1
+		is_input_mispelled && return 1
+		return 0
+	}
+
+	is_input_empty () {
+		! [ $GIT_COMMAND_NAME ] && {
+			return 0
+		}		
+	}
+
+	is_input_mispelled () {
+		! [ "${!GIT_COMMAND_NAME}" ] && {
+			return 0
+		}
+	}
+
+	main
 }
 EOF
 )
@@ -109,6 +153,7 @@ EOF
 )
 
 ALL_GIT_COMMANDS=$(cat << "EOF"
+{
 	GIT_UNSET=$(cat << "EOF2"
 	{
 		git config --global --unset credential.helper
@@ -130,13 +175,21 @@ EOF2
 	)
 
 	GIT_RESET=$(cat << "EOF2"
+	{
 		rm -r -f "$REPO_PATH"
 		mkdir -p "$REPO_PATH"
 		git clone "$REPO_URL" "$REPO_PATH"
+	}
 EOF2
 	)
+}
 EOF
 )
 
+CENTER_PRINT=$(cat << "EOF"
+
+
+EOF
+)
 
 main
