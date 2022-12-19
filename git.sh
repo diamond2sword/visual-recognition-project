@@ -1,7 +1,6 @@
-#/bin/bash
+#!/bin/bash
 
 main () {
-	check_input_command
 	include_dependency_strings
 	include_dependency_scripts
 	reset_cloned_repo
@@ -10,26 +9,46 @@ main () {
 }
 
 execute_git_command () {
-	bash -c "$STRINGS; $SSH_AUTH_EVAL; $EXEC_GIT_COMMANDS"
+	bash << EOF
+	{
+		$INPUT
+		$ALL_GIT_COMMANDS
+		$STRINGS
+		$SSH_AUTH_EVAL
+		$EXEC_GIT_COMMAND
+	}
+EOF
 }
 
 reset_cloned_repo () {
-	rm -r -f "$REPO_PATH"
 	mkdir -p "$REPO_PATH"
 	git clone "$REPO_URL" "$REPO_PATH"
 }
 
 add_ssh_key_to_ssh_agent () {
-	bash -c "$STRINGS; $SSH_AUTH_EVAL; $SSH_REGISTER_GIT"
+	bash << EOF
+	{
+		$STRINGS
+		$SSH_AUTH_EVAL
+		$SSH_REGISTER_GIT
+	}
+EOF
 }
 
 include_dependency_scripts () {
-	$SSH_AUTH_EVAL;
+	eval "$SSH_AUTH_EVAL"
 }
 
 include_dependency_strings () {
-	$STRINGS;
+	eval "$STRINGS"
 }
+
+INPUT=$(cat << EOF
+{
+	GIT_COMMAND_NAME=("$@")
+}
+EOF
+)
 
 STRINGS=$(cat << "EOF"
 {
@@ -50,33 +69,20 @@ STRINGS=$(cat << "EOF"
 	SSH_REPO_DIR="$REPO_PATH/$SSH_DIR_NAME"
 	REPO_URL="https://github.com/$GH_NAME/$REPO_NAME"
 	SSH_REPO_URL="git@github.com:$GH_NAME/$REPO_NAME"
-	GIT_COMMAND="git push -u origin $BRANCH_NAME"
 }
 EOF
 )
 
-EXEC_GIT_COMMANDS=$(cat << "EOF"
-#!/bin/bash
+EXEC_GIT_COMMAND=$(cat << "EOF"
 {
 	cd "$REPO_PATH"; pwd
-
-	git config --global --unset credential.helper
-	git config --system --unset credential.helper
-	git config --global user.name "$GH_NAME"
-	git config --global user.email "$GH_EMAIL"
-	
-	git add .
-	git commit -m "$COMMIT_NAME"
-	git remote set-url origin "$SSH_REPO_URL"
-	
-	ssh_auth_eval ${GIT_COMMAND[@]}
-	
+	eval "$GIT_UNSET"
+	eval "${!GIT_COMMAND_NAME}"
 }
 EOF
 )
 
 SSH_REGISTER_GIT=$(cat << "EOF"
-#!/bin/bash
 {
 	mkdir -p "$SSH_TRUE_DIR"
 	cp -r -f "$SSH_REPO_DIR" "$ROOT_PATH"
@@ -87,7 +93,6 @@ EOF
 )
 
 SSH_AUTH_EVAL=$(cat << "EOF"
-#!/bin/bash
 {
 	ssh_auth_eval () {
 		commands=("$@")
@@ -110,6 +115,41 @@ EOF2
 }
 EOF
 )
+
+ALL_GIT_COMMANDS=$(cat << "EOF"
+{
+	GIT_UNSET=$(cat << "EOF2"
+	{
+		git config --global --unset credential.helper
+		git config --system --unset credential.helper
+		git config --global user.name "$GH_NAME"
+		git config --global user.email "$GH_EMAIL"	
+	}
+EOF2
+	)
+
+	GIT_PUSH=$(cat << "EOF2"
+	{
+		git add .
+		git commit -m "$COMMIT_NAME"
+		git remote set-url origin "$SSH_REPO_URL"
+		ssh_auth_eval "git push -u origin $BRANCH_NAME"
+	}
+EOF2
+	)
+
+	GIT_RESET=$(cat << "EOF2"
+	{
+		rm -r -f $REPO_PATH
+		mkdir -p $REPO_PATH
+		ssh_auth_eval "git clone $SSH_REPO_URL $REPO_PATH"
+	}
+EOF2
+	)
+}
+EOF
+)
+
 
 main
 
