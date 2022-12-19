@@ -24,11 +24,11 @@ add_ssh_key_to_ssh_agent () {
 }
 
 include_dependency_scripts () {
-	$SSH_AUTH_EVAL
+	$SSH_AUTH_EVAL;
 }
 
 include_dependency_strings () {
-	$STRINGS
+	$STRINGS;
 }
 
 STRINGS=$(cat << "EOF"
