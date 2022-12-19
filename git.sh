@@ -3,26 +3,18 @@
 main () {
 	include_dependency_strings
 	include_dependency_scripts
-	reset_cloned_repo
 	add_ssh_key_to_ssh_agent
 	execute_git_command
 }
 
 execute_git_command () {
-	bash << EOF
-	{
+	bash -v << EOF
 		$INPUT
 		$ALL_GIT_COMMANDS
 		$STRINGS
 		$SSH_AUTH_EVAL
 		$EXEC_GIT_COMMAND
-	}
 EOF
-}
-
-reset_cloned_repo () {
-	mkdir -p "$REPO_PATH"
-	git clone "$REPO_URL" "$REPO_PATH"
 }
 
 add_ssh_key_to_ssh_agent () {
@@ -85,9 +77,9 @@ EOF
 SSH_REGISTER_GIT=$(cat << "EOF"
 {
 	mkdir -p "$SSH_TRUE_DIR"
-	cp -r -f "$SSH_REPO_DIR/*" $SSH_TRUE_PATH"
-	ssh_auth_eval "ssh-add" "$SSH_TRUE_DIR/$SSH_KEY_FILE_NAME"
+	cp -r -f "$SSH_REPO_DIR" "$ROOT_PATH"
 	eval "$(ssh-agent -s)"
+	ssh_auth_eval "ssh-add" "$SSH_TRUE_DIR/$SSH_KEY_FILE_NAME"
 }
 EOF
 )
@@ -117,13 +109,12 @@ EOF
 )
 
 ALL_GIT_COMMANDS=$(cat << "EOF"
-{
 	GIT_UNSET=$(cat << "EOF2"
 	{
 		git config --global --unset credential.helper
 		git config --system --unset credential.helper
 		git config --global user.name "$GH_NAME"
-		git config --global user.email "$GH_EMAIL"	
+		git config --global user.email "$GH_EMAIL"
 	}
 EOF2
 	)
@@ -139,26 +130,13 @@ EOF2
 	)
 
 	GIT_RESET=$(cat << "EOF2"
-	{
-		rm -r -f $REPO_PATH
-		mkdir -p $REPO_PATH
-		ssh_auth_eval "git clone $SSH_REPO_URL $REPO_PATH"
-	}
+		rm -r -f "$REPO_PATH"
+		mkdir -p "$REPO_PATH"
+		git clone "$REPO_URL" "$REPO_PATH"
 EOF2
 	)
-}
 EOF
 )
 
 
 main
-
-
-
-
-
-
-
-
-
-
