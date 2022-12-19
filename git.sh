@@ -1,4 +1,4 @@
-#!/bin/bash
+#/bin/bash
 
 main () {
 	include_dependency_strings
@@ -44,8 +44,7 @@ STRINGS=$(cat << "EOF"
 	SSH_DIR_NAME=".ssh"
 	SSH_KEY_FILE_NAME="id_rsa"
 	ROOT_PATH="/root"
-	DESKTOP_PATH="$ROOT_PATH/$DESKTOP_NAME"
-	REPO_PATH="$DESKTOP_PATH/$REPO_NAME"
+	REPO_PATH="$ROOT_PATH/$REPO_NAME"
 	SSH_TRUE_DIR="$ROOT_PATH/$SSH_DIR_NAME"
 	SSH_REPO_DIR="$REPO_PATH/$SSH_DIR_NAME"
 	REPO_URL="https://github.com/$GH_NAME/$REPO_NAME"
@@ -58,15 +57,15 @@ EOF
 EXEC_GIT_COMMANDS=$(cat << "EOF"
 #!/bin/bash
 {
-	cd "$REPO_PATH"
+	cd "$REPO_PATH"; pwd
 
-	git add .
-	git commit -m "$COMMIT_NAME"
-	
 	git config --global --unset credential.helper
 	git config --system --unset credential.helper
 	git config --global user.name "$GH_NAME"
 	git config --global user.email "$GH_EMAIL"
+	
+	git add .
+	git commit -m "$COMMIT_NAME"
 	git remote set-url origin "$SSH_REPO_URL"
 	
 	ssh_auth_eval ${GIT_COMMAND[@]}
@@ -76,9 +75,10 @@ EOF
 )
 
 SSH_REGISTER_GIT=$(cat << "EOF"
+#!/bin/bash
 {
 	mkdir -p "$SSH_TRUE_DIR"
-	cp -r -f "$SSH_REPO_DIR" "$SSH_TRUE_DIR/"
+	cp -r -f "$SSH_REPO_DIR" "$ROOT_PATH"
 	ssh_auth_eval "ssh-add" "$SSH_TRUE_DIR/$SSH_KEY_FILE_NAME"
 	eval "$(ssh-agent -s)"
 }
