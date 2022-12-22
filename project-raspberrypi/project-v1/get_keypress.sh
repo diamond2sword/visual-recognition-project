@@ -15,7 +15,7 @@ get_keypress () {
 
 reset_buffer () {
 	touch "$BUFFER_PATH"
-	echo "" > "$BUFFER_PATH"
+	echo -n "" > "$BUFFER_PATH"
 }
 
 get_keypress_once () {
@@ -25,11 +25,7 @@ get_keypress_once () {
 }
 
 save_keypress () {
-	sed -i '{
-		$ {
-			s/$/'"$KEYPRESS"'/
-		}
-	}' "$BUFFER_PATH"
+	echo -n "$KEYPRESS" >> "$BUFFER_PATH"
 }
 
 read_keypress () {

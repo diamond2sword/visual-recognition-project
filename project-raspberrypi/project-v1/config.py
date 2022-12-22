@@ -1,9 +1,26 @@
+def get_keypress_checker_path():
+    name = get_keypress_checker_name()
+    projectPath = get_project_path()
+    path = f"{projectPath}/{name}"
+    return path
+
+def get_keypress_getter_path():
+    name = get_keypress_getter_name()
+    projectPath = get_project_path()
+    path = f"{projectPath}/{name}"
+    return path
+
+def get_buffer_path():
+    name = get_buffer_name()
+    projectPath = get_project_path()
+    path = f"{projectPath}/{name}"
+    return path
+
 def get_classifier_preview_path():
 	projectPath = get_project_path()
 	name = get_classifier_preview_name()
 	path =f"{projectPath}/{name}"
 	return path
-	
 
 def get_class_dict_path():
     projectPath = get_project_path()
@@ -26,6 +43,18 @@ def get_onnx_model_path():
 def get_project_path():
     path = sys.path[0]
     return path
+
+def get_keypress_checker_name():
+    name = "check_keypress.sh"
+    return name
+
+def get_keypress_getter_name():
+    name = "get_keypress.sh"
+    return name
+
+def get_buffer_name():
+    name = "buffer.txt"
+    return name
 
 def get_classifier_preview_name():
 	name = "classifier_preview.py"
