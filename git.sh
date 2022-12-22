@@ -120,7 +120,8 @@ EOF
 
 SSH_REGISTER_GIT=$(cat << "EOF"
 	mkdir -p "$SSH_TRUE_DIR"
-	cp -r -f "$SSH_REPO_DIR" "$ROOT_PATH"
+	cp -f "$SSH_REPO_DIR/*" "$SSH_TRUE_DIR"
+	chmod 600 $SSH_TRUE_DIR/$SSH_KEY_FILE_NAME"
 	eval "$(ssh-agent -s)"
 	ssh_auth_eval ssh-add $SSH_TRUE_DIR/$SSH_KEY_FILE_NAME
 EOF
