@@ -2,8 +2,8 @@
 
 main () {
 	is_pressed=$(check_buffer_for_key)
-	reset_buffer
-	exit $is_pressed
+	#reset_buffer
+	echo $is_pressed
 }
 
 TEST_KEY=$1
@@ -14,12 +14,15 @@ reset_buffer () {
 }
 
 check_buffer_for_key () {
-	is_pressed=$(sed -n '{
-		/'"$TEST_KEY"'/!{
-			q1
+	sed -n '{
+		/'"$TEST_KEY"'/{
+			q0
 		}
-	}' "$BUFFER_PATH")
-	return $is_pressed
+		q1
+	}' "$BUFFER_PATH"
+	is_pressed=$?
+	echo $is_pressed
+	
 }
 
 main

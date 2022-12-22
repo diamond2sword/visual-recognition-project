@@ -1,15 +1,11 @@
 #!/bin/bash
 
-
-
-
-
 main () {
 	reset_buffer
 	get_keypress
 }
 
-BUFFER_PATH="/root/buffer"
+BUFFER_PATH="$1"
 
 get_keypress () {
 	while true; do {
