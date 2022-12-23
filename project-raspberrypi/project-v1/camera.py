@@ -42,10 +42,10 @@ from printer import *
 from running_time import *
 from cv2 import VideoCapture,  imshow as request_to_display, waitKey
 from PIL import Image
-from timeit import default_timer as get_time
+
 
 if __name__ == "__main__":
-	preview_until(time=3)
+	preview_until(time=100)
 	pic = take_photo()
 	print_pic(pic)
 

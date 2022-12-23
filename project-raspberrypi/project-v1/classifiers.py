@@ -7,8 +7,8 @@ class Classifier:
 	######################## ABSTRACTION LEVEL 4 #########################
 		
 	def __run(self):
-		self.__wake_up_camera()
 		self.__reset_run_variables()
+		self.__wake_up_camera()
 		self.__start_stop_progressbar()
 		self.__start_keypress_getter()
 		self.__reset_stop_time()
@@ -16,24 +16,43 @@ class Classifier:
 			self.__update_stop_progressbar()
 			if self.__check_for_stop():
 				break
+			self.__get_pictures()
+			self.__show_preview()
 			if self.__check_pause_key():
 				continue
-			self.__get_pictures()
 			self.__save_input_pic()
-			self.__show_preview()
-			if not self.__check_classify_key():
-				continue
 			self.__realtime_classify()
 			self.__add_last_probabilities_to_sum()
 			self.__change_realtime_output()
 			self.__show_realtime_output()
 		self.__stop_keypress_getter()
 		self.__end_stop_progressbar()
+		self.__stop_camera()
 		self.__summed_classify()
 		self.__change_delayed_output()
 		self.__show_delayed_output()
-
+	
+	def __run_simple(self):
+		self.__wake_up_camera()
+		self.__reset_run_variables()
+		self.__get_pictures()
+		self.__show_preview()
+		self.__simple_classify()
+		self.__change_simple_output()
+		self.__show_simple_output()
+		
 	######################## ABSTRACTION LEVEL 3 #########################
+	
+	
+	def __show_simple_output(self):
+		self.__print(self.simpleOutput)
+	
+	def __change_simple_output(self):
+		self.__change_simple_output_to_simple_probabilities()
+		self.__change_simple_output_to_labeled_probabilities()
+		
+	def __simple_classify(self):
+		self.simpleProbabilities = self.__classify(self.savedInputPic[0])
 
 	def __show_delayed_output(self):
 		self.__print(self.delayedOutput)
@@ -82,15 +101,19 @@ class Classifier:
 		self.__add_to_sum(self.lastProbabilities)	 
 
 	def __realtime_classify(self):
-		self.lastProbabilities = self.__classify(self.inputPic)
+		self.lastProbabilities = self.__classify(self.savedInputPics[0])
 		
 	def __classify(self, inputPic): 
 		scores = self.model.run(None, {self.modelInputName: inputPic})
 		probabilities = exp(scores)
-		return probabilities 
+		return probabilities
 		
 	def __check_classify_key(self):
-		return is_pressed(self.classifyKey)	
+		if is_pressed(self.classifyKey):
+			self.mustClassify = not self.mustClassify
+		print(self.mustClassify)
+		if self.mustClassify:
+			return True
 
 	def __show_preview(self):
 		request_to_display(self.picWindowName, self.picArray)
@@ -107,7 +130,10 @@ class Classifier:
 		self.numOfTakenPics += 1
 
 	def __check_pause_key(self):
-		return is_pressed(self.pauseKey)
+		if is_pressed(self.pauseKey):
+			self.isPaused = not self.isPaused
+		if self.isPaused:
+			return True
 
 	def __check_for_stop(self):
 		return self.__check_stop_time() or self.__check_stop_taken_pic_limit() or self.__check_stop_key()
@@ -150,12 +176,18 @@ class Classifier:
 		self.inputPic = None
 		self.numOfTakenPics = 0
 		self.savedInputPics = []
+		self.isPaused = False
 		self.__reset_summing_variables()
 		self.lastProbabilities = None
 		self.averageProbabilities = None
 		self.labeledRealtimeOutput = None
 		self.realtimeOutput = None
 		self.delayedOutput = None
+		self.simpleOutput = None
+		
+	def __stop_camera(self):
+		self.camera.release()
+		remove_pic_display(self.picWindowName)
 		
 	def __wake_up_camera(self):
 		self.__get_pictures()
@@ -163,11 +195,17 @@ class Classifier:
 
 ######################## ABSTRACTION LEVEL 2 #########################
 
+	def __change_simple_output_to_labeled_probabilities(self):
+		self.simpleOutput = self.__change_to_labeled_probabilities(self.simpleOutput) 
+
+	def __change_simple_output_to_simple_probabilities(self):
+		self.simpleOutput = self.simpleProbabilities
+
 	def __change_delayed_output_to_labeled_probabilities(self):
 		self.delayedOutput = self.__change_to_labeled_probabilities(self.delayedOutput) 
 	
 	def __change_delayed_output_to_average_probabilities(self):
-		self.delayedOutput = divide_array(self.delayedOutput, self.numOfTakenPics)
+		self.delayedOutput = divide_array(self.delayedOutput, len(self.savedInputPics))
 
 	def __change_delayed_output_to_summed_probabilities(self):
 		self.delayedOutput = self.sum
@@ -219,7 +257,7 @@ class Classifier:
 		self.stopTakenPicLimitProgressbar.close()
 
 	def __update_stop_taken_pic_limit_progressbar(self):
-		self.stopTakenPicLimitProgressbar.n = self.numOfTakenPics 
+		self.stopTakenPicLimitProgressbar.n = len(self.savedInputPics) 
 		self.stopTakenPicLimitProgressbar.refresh()
 		
 	def __clear_stop_taken_pic_limit_progressbar(self):
@@ -237,7 +275,7 @@ class Classifier:
 		return is_pressed(self.stopKey)
 		
 	def __check_stop_taken_pic_limit(self):
-		if self.numOfTakenPics >= self.stopTakenPicLimit:
+		if len(self.savedInputPics) >= self.stopTakenPicLimit:
 			return True
 
 	def __check_stop_time(self):
@@ -250,25 +288,31 @@ class Classifier:
 
 	def __print(self, string):
 		print(string)
+		
+					
+	def __return_true(self):
+		return True
+			
+	def __do_nothing(self):
+		pass
 
 ######################## ABSTRACTION LEVEL 1 #########################
 							
 	def __init__(
-		self, 
+		self,
 		stopTime=5,
 		stopTakenPicLimit=None,
 		stopKey=None, 
 		hasStopProgressbar=True,
+		pauseKey=None,
 		hasPreview=False, 
 		picWindowName=None,
-		classifyKey=None,
-		mustWaitClassifyKey=False,
-		pauseKey=None,
 		isSummed=False,
 		isRealtime=True,
 		isRealtimeOutputLabeled=True,
 		mustShowSummedClassifyProgress=True,
 		isDelayedOutputLabeled=True,
+		isSimpleOutputLabeled=True,
 		):
 		
 		self.stopTime = stopTime
@@ -296,14 +340,9 @@ class Classifier:
 		self.picWindowName = picWindowName
 		self.__def_show_preview()
 		
-		self.classifyKey = classifyKey
-		self.mustWaitClassifyKey = mustWaitClassifyKey
-		self.__def_check_classify_key()
-		
 		self.isRealtime = isRealtime
 		self.isSummed = isSummed
 		self.isRealtimeOutputLabeled = isRealtimeOutputLabeled
-		self.__def_get_pictures()
 		self.__def_save_input_pic()
 		self.__def_realtime_classify()
 		self.__def_add_last_probabilities_to_sum()
@@ -318,13 +357,31 @@ class Classifier:
 		self.__def_change_delayed_output()
 		self.__def_show_delayed_output()
 		
+		self.__def_simple_classify()
+		self.isSimpleOutputLabeled = isSimpleOutputLabeled
+		self.__def_change_simple_output()
+		self.__def_show_simple_output()
+
 		self.__def_keypress_getter()
+		self.keypressGetterDescription = f"stopKey = {self.stopKey}, pauseKey = {self.pauseKey}"
 
 		self.__reset_run_variables()
 
 	def __def_run(self):
 		if not self.isRealtime and not self.isSummed:
-			self.__run = self.__do_nothing
+			self.__run = self.__run_simple
+			
+	def __def_show_simple_output(self):
+		if self.isRealtime or self.isSummed:
+			self.__show_simple_output = self.__do_nothing
+	
+	def __def_change_simple_output(self):
+		if self.isRealtime or self.isSummed:
+			self.__change_show_simple_output = self.__do_nothing		
+	
+	def __def_simple_classify(self):
+		if self.isRealtime or self.isSummed:
+			self.__simple_classify = self.__do_nothing		
 
 	def __def_show_delayed_output(self):
 		if self.isRealtime:
@@ -368,10 +425,6 @@ class Classifier:
 		if not self.isRealtime:
 			self.__realtime_classify = self.__do_nothing
 		
-	def __def_check_classify_key(self):
-		if not self.mustWaitClassifyKey or self.classifyKey is None:
-			self.__check_classify_key = self.__return_true
-		
 	def __def_show_preview(self):
 		if self.picWindowName is None:
 			self.picWindowName = get_pic_window_name()
@@ -381,10 +434,6 @@ class Classifier:
 	def __def_save_input_pic(self):
 		if not self.isSummed or self.isRealtime:
 			self.__save_input_pic = self.__do_nothing
-			
-	def __def_get_pictures(self):
-		if not self.isRealtime and not self.isSummed:
-			self.__get_pictures = self.__do_nothing
 
 	def __def_center_transform(self):
 		camPicArray = take_photo_with(self.camera)
@@ -434,7 +483,6 @@ class Classifier:
 			self.__check_stop_key = self.__do_nothing
 
 	def __def_keypress_getter(self):
-		self.keypressGetterDescription = f"stopKey = {self.stopKey}, pauseKey = {self.pauseKey}, classifyKey = {self.classifyKey}"
 		if self.stopKey is not None:
 			return
 		if self.pauseKey is not None:
@@ -443,12 +491,6 @@ class Classifier:
 			return
 		self.__start_keypress_getter = self.__do_nothing
 		self.__stop_keypress_getter = self.__do_nothing
-					
-	def __return_true(self):
-		return True
-			
-	def __do_nothing(self):
-		pass
 	
 from config import *
 from class_dict_manager import *
@@ -457,7 +499,7 @@ from dataset import *
 from camera import *
 from keypress import *
 from running_time import *
-from cv2 import imshow as request_to_display, waitKey
+from cv2 import imshow as request_to_display, waitKey, destroyWindow as remove_pic_display
 from torchvision.transforms import Resize, CenterCrop
 from torch.nn import Sequential
 from numpy import add as add_array, divide as divide_array
@@ -467,12 +509,10 @@ if __name__ == "__main__":
 	c = Classifier(
 		stopTime=None,
 		stopTakenPicLimit=100,
-		hasStopProgressbar=True,
-		isSummed=False,
-		isRealtime=True,
-		isRealtimeOutputLabeled=True,
-		mustShowSummedClassifyProgress=False,
-		isDelayedOutputLabeled=True,
+		hasPreview=True,
+		isSummed=True,
+		isRealtime=False,
 		stopKey="y",
+		pauseKey="r",
 	)
 	c.main()

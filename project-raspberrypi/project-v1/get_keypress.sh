@@ -16,6 +16,7 @@ DESCRIPTION=("$@")
 
 
 get_keypress () {
+	ignore_enter_key
 	while true; do {
 		get_keypress_once
 		must_stop_keypress_getter && {
@@ -62,7 +63,7 @@ save_keypress () {
 }
 
 read_keypress () {
-	read -t .1 -sn1 KEYPRESS
+	read -t .01 -sn1 KEYPRESS
 }
 
 display_keypress () {
@@ -87,6 +88,10 @@ is_buffer_empty () {
 
 get_current_buffer () {
 	BUFFER=$(cat "$BUFFER_PATH")
+}
+
+ignore_enter_key () {
+	stty igncr
 }
 
 init
