@@ -112,12 +112,6 @@ class Classifier:
 	def __check_for_stop(self):
 		return self.__check_stop_time() or self.__check_stop_taken_pic_limit() or self.__check_stop_key()
 
-	def __stop_keypress_getter(self):
-		stop_keypress_getter()
-
-	def __start_keypress_getter(self):
-		start_keypress_getter()
-
 	def __print_with_respect_to_stop_progressbar(self, string):
 		self.__clear_stop_progressbar()
 		self.__print(string)
@@ -140,7 +134,13 @@ class Classifier:
 		self.__start_stop_taken_pic_limit_progressbar() 
 		
 	def __reset_stop_time(self):
-		self.runningStopTime.reset()			 
+		self.runningStopTime.reset()
+
+	def __stop_keypress_getter(self):
+		stop_keypress_getter()
+
+	def __start_keypress_getter(self):
+		start_keypress_getter(self.keypressGetterDescription)	 
 		 
 	def __reset_run_variables(self):
 		self.timeProgressBar = None
@@ -270,6 +270,7 @@ class Classifier:
 		mustShowSummedClassifyProgress=True,
 		isDelayedOutputLabeled=True,
 		):
+		
 		self.stopTime = stopTime
 		self.stopTakenPicLimit = stopTakenPicLimit
 		self.stopKey = stopKey
@@ -324,16 +325,6 @@ class Classifier:
 	def __def_run(self):
 		if not self.isRealtime and not self.isSummed:
 			self.__run = self.__do_nothing
-
-	def __def_keypress_getter(self):
-		if self.stopKey is not None:
-			return
-		if self.pauseKey is not None:
-			return
-		if self.classifyKey is not None:
-			return
-		self.__start_keypress_getter = self.__do_nothing
-		self.__stop_keypress_getter = self.__do_nothing
 
 	def __def_show_delayed_output(self):
 		if self.isRealtime:
@@ -441,6 +432,17 @@ class Classifier:
 	def __def_stop_key(self):
 		if self.stopKey is None:
 			self.__check_stop_key = self.__do_nothing
+
+	def __def_keypress_getter(self):
+		self.keypressGetterDescription = f"stopKey = {self.stopKey}, pauseKey = {self.pauseKey}, classifyKey = {self.classifyKey}"
+		if self.stopKey is not None:
+			return
+		if self.pauseKey is not None:
+			return
+		if self.classifyKey is not None:
+			return
+		self.__start_keypress_getter = self.__do_nothing
+		self.__stop_keypress_getter = self.__do_nothing
 					
 	def __return_true(self):
 		return True
@@ -454,6 +456,7 @@ from onnx import *
 from dataset import *
 from camera import *
 from keypress import *
+from running_time import *
 from cv2 import imshow as request_to_display, waitKey
 from torchvision.transforms import Resize, CenterCrop
 from torch.nn import Sequential

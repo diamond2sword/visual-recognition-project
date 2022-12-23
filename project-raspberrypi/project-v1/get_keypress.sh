@@ -1,13 +1,19 @@
 #!/bin/bash
 
 main () {
-	def_must_stop_keypress_getter
-	reset_buffer
+	display_description
 	get_keypress
 }
 
-BUFFER_PATH="$1"
-STOP_WORD="$2"
+init () {
+	def_must_stop_keypress_getter
+	def_display_description
+}
+
+BUFFER_PATH="$1"; shift
+STOP_WORD="$1"; shift
+DESCRIPTION=("$@")
+
 
 get_keypress () {
 	while true; do {
@@ -18,14 +24,26 @@ get_keypress () {
 	} done
 }
 
-reset_buffer () {
-	echo -n "" > "$BUFFER_PATH"
+def_display_description () {
+	! [ "$DESCRIPTION" ] && {
+		display_description () { :; }
+	}
 }
 
 def_must_stop_keypress_getter () {
 	! [ "$STOP_WORD" ] && {
 		must_stop_keypress_getter () { :; }
 	}
+}
+
+get_keypress_once () {
+	display_keypress
+	read_keypress
+	save_keypress
+}
+
+display_description () {
+	echo "$DESCRIPTION"
 }
 
 must_stop_keypress_getter () {
@@ -39,12 +57,6 @@ must_stop_keypress_getter () {
 	return 0
 }
 
-get_keypress_once () {
-	display_keypress
-	read_keypress
-	save_keypress
-}
-
 save_keypress () {
 	echo -n "$KEYPRESS" >> "$BUFFER_PATH"
 }
@@ -53,7 +65,7 @@ read_keypress () {
 	read -t .1 -sn1 KEYPRESS
 }
 
-display_keypress () {	
+display_keypress () {
 	echo -en "\rpressed key: $KEYPRESS\r"
 }
 
@@ -77,4 +89,5 @@ get_current_buffer () {
 	BUFFER=$(cat "$BUFFER_PATH")
 }
 
+init
 main
