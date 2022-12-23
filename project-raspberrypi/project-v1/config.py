@@ -91,6 +91,9 @@ def get_dataset_suffix_name():
     suffix = "-dataset"
     return suffix
 
+def get_keypress_getter_stop_word():
+	word = "stop_keypress_getter"
+	return word
 
 def get_test_loader_batch_size():
     batchSize = 200
