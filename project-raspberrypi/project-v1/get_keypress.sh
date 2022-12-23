@@ -19,13 +19,12 @@ get_keypress () {
 }
 
 reset_buffer () {
-	touch "$BUFFER_PATH"
 	echo -n "" > "$BUFFER_PATH"
 }
 
 def_must_stop_keypress_getter () {
 	! [ "$STOP_WORD" ] && {
-		unset must_stop_keypress_getter
+		must_stop_keypress_getter () { :; }
 	}
 }
 

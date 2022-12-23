@@ -463,7 +463,7 @@ import sys
 if __name__ == "__main__":
 	c = Classifier(
 		stopTime=None,
-		stopTakenPicLimit=None,
+		stopTakenPicLimit=100,
 		hasStopProgressbar=True,
 		isSummed=False,
 		isRealtime=True,
