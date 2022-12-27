@@ -125,6 +125,7 @@ SSH_REGISTER_GIT=$(cat <<- "EOF"
 	chmod 600 "$SSH_TRUE_DIR/$SSH_KEY_FILE_NAME"
 	eval "$(ssh-agent -s)"
 	ssh_auth_eval ssh-add $SSH_TRUE_DIR/$SSH_KEY_FILE_NAME
+EOF
 )
 
 
