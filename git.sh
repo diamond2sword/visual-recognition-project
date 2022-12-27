@@ -6,7 +6,7 @@ main () {
 }
 
 STRINGS=$(cat <<- "EOF"
-	REPO_NAME=visual-recognition-project
+	REPO_NAME="visual-recognition-project"
 	GH_EMAIL="diamond2sword@gmail.com"
 	GH_NAME="diamond2sword"
 	GH_PASSWORD="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"
@@ -108,7 +108,7 @@ ALL_GIT_COMMANDS=$(cat <<- "EOF"
 				b exit
 				:found
 				/^STRINGS=/!{
-					s/'"$KEY_NAME"'.*$/'"$KEY_NAME"'='"$NEW_VALUE"'/
+					s/'"$KEY_NAME"'.*$/'"$KEY_NAME"'="'"$NEW_VALUE"'"/
 				}
 			}
 			:exit
