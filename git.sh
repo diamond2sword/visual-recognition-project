@@ -21,7 +21,7 @@ STRINGS=$(cat <<- "EOF"
 	ROOT_PATH="/root"
 	REPO_PATH="$ROOT_PATH/$REPO_NAME"
 	THIS_FILE_PATH="$ROOT_PATH/$THIS_FILE_NAME"
-	SSH_TRUE_DIR="$REPO_PATH/$SSH_DIR_NAME"
+	SSH_TRUE_DIR="$ROOT_PATH/$SSH_DIR_NAME"
 	SSH_REPO_DIR="$REPO_PATH/$SSH_DIR_NAME"
 	REPO_URL="https://github.com/$GH_NAME/$REPO_NAME"
 	SSH_REPO_URL="git@github.com:$GH_NAME/$REPO_NAME"
@@ -118,13 +118,13 @@ ALL_GIT_COMMANDS=$(cat <<- "EOF"
 EOF
 )
 
-SSH_REGISTER_GIT=$(cat << "EOF"
+SSH_REGISTER_GIT=$(cat <<- "EOF"
+	#!/bin/bash
 	mkdir -p "$SSH_TRUE_DIR"
-	cp -f "$SSH_REPO_DIR/*" "$SSH_TRUE_DIR"
+	cp -f $(eval echo $SSH_REPO_DIR/*) "$SSH_TRUE_DIR"
 	chmod 600 "$SSH_TRUE_DIR/$SSH_KEY_FILE_NAME"
 	eval "$(ssh-agent -s)"
 	ssh_auth_eval ssh-add $SSH_TRUE_DIR/$SSH_KEY_FILE_NAME
-EOF
 )
 
 
