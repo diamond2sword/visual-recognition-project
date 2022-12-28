@@ -24,6 +24,7 @@ class Time:
 	def reset(self):
 		now = get_time()
 		self.end = now + self.until
-		
-		
+
 from timeit import default_timer as get_time
+if __name__ == "__main__":
+	pass

@@ -1,13 +1,17 @@
 
-    
+def main():
+	#classify_from_test_dataset()
+	classify_from_camera(previewTime=10, mustShowPreview=False)
+
+	
 def classify_from_camera(picLabel=None, previewTime=None, mustShowPreview=True):
-    if picLabel is None:
-        picLabel = get_any_class_name()
-    preview_until(time=previewTime, mustShow=mustShowPreview)
-    pic = take_photo()
-    pic = center_of(pic)
-    probabilities = simple_classify(pic)
-    show_output(pic, picLabel, probabilities)
+	if picLabel is None:
+		picLabel = config.get_any_class_name()
+	camera.preview_until(time=previewTime, mustShow=mustShowPreview)
+	pic = camera.take_photo()
+	pic = dataset.center_of(pic)
+	probabilities = simple_classify(pic)
+	show_output(pic, picLabel, probabilities)
 
 def classify_from_test_dataset(classLabel=None):
 	pic, picLabel = get_random_labeled_pic_from_test_dataset(classLabel=classLabel)
@@ -16,17 +20,17 @@ def classify_from_test_dataset(classLabel=None):
 	show_output(pic, picLabel, probabilities)
 	
 def simple_classify(pic):
-	inputPic = to_onnx_input(pic)
+	inputPic = dataset.to_onnx_input(pic)
 	model = get_onnx_model()
 	probabilities = get_probabilities_by_running(model, inputPic)
 	return probabilities
 
 def show_output(pic, picLabel, probabilities):
 	predictedIndex = probabilities.argmax()
-	print_pic(pic)
-	classLabels = get_class_labels()
-	print_str(f"true label: {picLabel}")
-	print_str(f"predicted label: {classLabels[predictedIndex]}")
+	printer.print_pic(pic)
+	classLabels = class_dict_manager.get_class_labels()
+	printer.print_str(f"true label: {picLabel}")
+	printer.print_str(f"predicted label: {classLabels[predictedIndex]}")
 		
 def get_probabilities_by_running(model, inputPic):
 	inputName = get_input_name_of(model)
@@ -36,25 +40,24 @@ def get_probabilities_by_running(model, inputPic):
 
 
 def get_onnx_model():
-    path = get_onnx_model_path()
-    model = InferenceSession(path)
-    return model
+	path = config.get_onnx_model_path()
+	model = InferenceSession(path)
+	return model
 
 def get_probability_distribution_of(scores):
 	probabilities = exp(scores)
 	return probabilities
 	
 def get_input_name_of(onnxModel):
-    inputName = onnxModel.get_inputs()[0].name
-    return inputName
+	inputName = onnxModel.get_inputs()[0].name
+	return inputName
 
-from config import *
-from dataset import *
-from printer import *
-from class_dict_manager import *
-from camera import *
+import config
+import dataset
+import printer
+import class_dict_manager
+import camera
 from numpy import exp
 from onnxruntime import InferenceSession
 if __name__ == "__main__":
-    #classify_from_test_dataset()
-    classify_from_camera(previewTime=10, mustShowPreview=False)
+	main()

@@ -1,38 +1,53 @@
-{
-    "None": {
-        "images": [],
-        "links": [
-            "https://www.youtube.com/watch?v=9rqa8xPVIX4"
-        ],
-        "strings": {
-            "search_query" : "images from plant pictures"
-        }
-    },
-    "C": {
-        "images": [],
-        "links": [
-            "https://www.youtube.com/watch?v=K8FmCDjWWbE"
-        ],
-        "strings": {
-            "search_query" : "images from plant pictures"
-        }
-    },
-    "B": {
-        "images": [],
-        "links": [
-            "https://www.youtube.com/watch?v=ouBINMWobF4"
-        ],
-        "strings": {
-            "search_query" : "images from plant pictures"
-        }
-    },
-    "A": {
-        "images": [],
-        "links": [
-            "https://www.youtube.com/watch?v=GErYV4mwQ_g"
-        ],
-        "strings": {
-            "search_query" : "images from plant pictures"
-        }
-    }
+
+	"None": {
+		"images": [],
+		"links": [
+			"https://www.youtube.com/watch?v=9rqa8xPVIX4"
+		],
+		"strings": {
+			"search_query" : "images from plant pictures"
+		}
+	},
+	"C": {
+		"images": [],
+		"links": [
+			"https://www.youtube.com/watch?v=K8FmCDjWWbE"
+		],
+		"strings": {
+			"plant": {
+				"scientific_name": "C c",
+				"medicinal_properties": "medicinal properties of C",
+				"basic_needs": "basic needs of C"
+			},
+			"search_query" : "images from plant pictures"
+		}
+	},
+	"B": {
+		"images": [],
+		"links": [
+			"https://www.youtube.com/watch?v=ouBINMWobF4"
+		],
+		"strings": {
+			"plant": {
+				"scientific_name": "B b",
+				"medicinal_properties": "medicinal properties of B",
+				"basic_needs": "basic needs of B"
+			},
+			"search_query" : "images from plant pictures"
+		}
+	},
+	"A": {
+		"images": [],
+		"links": [
+			"https://www.youtube.com/watch?v=GErYV4mwQ_g"
+		],
+		"strings": {
+			"plant": {
+				"scientific_name": "A a",
+				"medicinal_properties": "medicinal properties of A",
+				"basic_needs": "basic needs of A"
+			},
+			"search_query" : "images from plant pictures"
+		}
+	}
 }
