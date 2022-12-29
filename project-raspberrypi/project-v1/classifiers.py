@@ -10,10 +10,7 @@ def main():
 		picWindowName=None,
 		isSummed=True,
 		isRealtime=False,
-		isRealtimeOutputLabeled=True,
 		mustShowSummedClassifyProgress=True,
-		isDelayedOutputLabeled=True,
-		isSimpleOutputLabeled=True,
 	)
 	c.main()
 
@@ -339,10 +336,7 @@ class Classifier:
 		picWindowName=None,
 		isSummed=False,
 		isRealtime=False,
-		isRealtimeOutputLabeled=True,
 		mustShowSummedClassifyProgress=False,
-		isDelayedOutputLabeled=True,
-		isSimpleOutputLabeled=True,
 		mustShowOutput=True,
 		mustExplainLastOutput=True,
 		):
@@ -379,7 +373,6 @@ class Classifier:
 		
 		self.isRealtime = isRealtime
 		self.isSummed = isSummed
-		self.isRealtimeOutputLabeled = isRealtimeOutputLabeled
 		self.__def_realtime_classify()
 		self.__def_add_last_probabilities_to_sum()
 		self.__def_change_realtime_output()
@@ -387,14 +380,12 @@ class Classifier:
 		self.__def_run()
 	
 		self.mustShowSummedClassifyProgress = mustShowSummedClassifyProgress
-		self.isDelayedOutputLabeled = isDelayedOutputLabeled
 		self.__def_summed_classify_progressbar()
 		self.__def_summed_classify()
 		self.__def_change_delayed_output()
 		self.__def_show_delayed_output()
 		
 		self.__def_simple_classify()
-		self.isSimpleOutputLabeled = isSimpleOutputLabeled
 		self.__def_change_simple_output()
 		self.__def_show_simple_output()
 
@@ -426,7 +417,7 @@ class Classifier:
 	
 	def __def_change_simple_output(self):
 		if self.isRealtime or self.isSummed:
-			self.__change_show_simple_output = self.__do_nothing		
+			self.__change_simple_output = self.__do_nothing		
 	
 	def __def_simple_classify(self):
 		if self.isRealtime or self.isSummed:
@@ -439,8 +430,6 @@ class Classifier:
 	def __def_change_delayed_output(self):
 		if self.isRealtime or not self.isSummed:
 			self.__change_delayed_output = self.__do_nothing
-		if not self.isDelayedOutputLabeled:
-			self.__change_delayed_output_to_labeled_probabilities = self.__do_nothing
 			
 	def __def_summed_classify(self):
 		if not self.isSummed or self.isRealtime:
@@ -463,8 +452,6 @@ class Classifier:
 			self.__change_realtime_output_to_last_probabilities = self.__do_nothing
 		if not self.isSummed:
 			self.__change_realtime_output_to_average_probabilities = self.__do_nothing
-		if not self.isRealtimeOutputLabeled:
-			self.__change_realtime_output_to_labeled_probabilities = self.__do_nothing
 			
 	def __def_add_last_probabilities_to_sum(self):
 		if not self.isRealtime or not self.isSummed:
