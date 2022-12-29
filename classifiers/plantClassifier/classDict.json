@@ -1,20 +1,23 @@
 {
 	"None": {
-		"images": [],
 		"links": [
 			"https://www.youtube.com/watch?v=9rqa8xPVIX4"
 		],
 		"strings": {
+			"explain": {
+				"scientific_name": "None none",
+				"medicinal_properties": "medicinal properties of None",
+				"basic_needs": "basic needs of None"
+			},
 			"search_query" : "images from plant pictures"
 		}
 	},
 	"C": {
-		"images": [],
 		"links": [
 			"https://www.youtube.com/watch?v=K8FmCDjWWbE"
 		],
 		"strings": {
-			"plant": {
+			"explain": {
 				"scientific_name": "C c",
 				"medicinal_properties": "medicinal properties of C",
 				"basic_needs": "basic needs of C"
@@ -23,12 +26,11 @@
 		}
 	},
 	"B": {
-		"images": [],
 		"links": [
 			"https://www.youtube.com/watch?v=ouBINMWobF4"
 		],
 		"strings": {
-			"plant": {
+			"explain": {
 				"scientific_name": "B b",
 				"medicinal_properties": "medicinal properties of B",
 				"basic_needs": "basic needs of B"
@@ -37,12 +39,11 @@
 		}
 	},
 	"A": {
-		"images": [],
 		"links": [
 			"https://www.youtube.com/watch?v=GErYV4mwQ_g"
 		],
 		"strings": {
-			"plant": {
+			"explain": {
 				"scientific_name": "A a",
 				"medicinal_properties": "medicinal properties of A",
 				"basic_needs": "basic needs of A"

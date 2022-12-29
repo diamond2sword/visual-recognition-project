@@ -2,11 +2,11 @@
 def main():
 	c = Classifier(
 		stopTime=5,
-		stopTakenPicLimit=100,
+		stopTakenPicLimit=5,
 		stopKey=None, 
 		hasStopProgressbar=True,
 		pauseKey=None,
-		hasPreview=False, 
+		hasPreview=False,
 		picWindowName=None,
 		isSummed=True,
 		isRealtime=False,
@@ -50,6 +50,8 @@ class Classifier:
 		self.__summed_classify()
 		self.__change_delayed_output()
 		self.__show_delayed_output()
+		self.__get_last_output()
+		self.__explain_last_output()
 	
 	def __run_simple(self):
 		self.__wake_up_camera()
@@ -59,9 +61,20 @@ class Classifier:
 		self.__simple_classify()
 		self.__change_simple_output()
 		self.__show_simple_output()
+		self.__get_last_output()
+		self.__explain_last_output()
 		
 	######################## ABSTRACTION LEVEL 3 #########################
-	
+
+	def __explain_last_output(self):
+		lastOutput = self.__get_last_output()
+		explain.explain(lastOutput)
+
+	def __get_last_output(self):
+		pass
+
+	def __get_simple_output(self):
+		return self.simpleOutput
 	
 	def __show_simple_output(self):
 		self.__print(self.simpleOutput)
@@ -72,6 +85,9 @@ class Classifier:
 		
 	def __simple_classify(self):
 		self.simpleProbabilities = self.__classify(self.inputPic)
+
+	def __get_delayed_output(self):
+		return self.delayedOutput
 
 	def __show_delayed_output(self):
 		self.__print(self.delayedOutput)
@@ -108,6 +124,9 @@ class Classifier:
 			file=sys.stdout
 		)
 		
+	def __get_realtime_output(self):
+		return self.realtimeOutput
+
 	def __show_realtime_output(self):
 		self.__print_with_respect_to_stop_progressbar(self.realtimeOutput)
 		
@@ -194,6 +213,7 @@ class Classifier:
 		self.realtimeOutput = None
 		self.delayedOutput = None
 		self.simpleOutput = None
+		self.lastOutput = None
 		
 	def __stop_camera(self):
 		self.camera.release()
@@ -323,6 +343,8 @@ class Classifier:
 		mustShowSummedClassifyProgress=False,
 		isDelayedOutputLabeled=True,
 		isSimpleOutputLabeled=True,
+		mustShowOutput=True,
+		mustExplainLastOutput=True,
 		):
 		
 		self.stopTime = stopTime
@@ -337,7 +359,10 @@ class Classifier:
 		
 		self.pauseKey = pauseKey
 		self.__def_check_pause_key()
-		
+	
+		self.__def_keypress_getter()
+		self.keypressGetterDescription = f"stopKey = {self.stopKey}, pauseKey = {self.pauseKey}"
+	
 		self.camera = camera.get_camera()
 		self.__def_center_transform()
 		
@@ -349,6 +374,8 @@ class Classifier:
 		self.hasPreview = hasPreview
 		self.picWindowName = picWindowName
 		self.__def_show_preview()
+
+		self.mustShowOutput = mustShowOutput
 		
 		self.isRealtime = isRealtime
 		self.isSummed = isSummed
@@ -371,17 +398,30 @@ class Classifier:
 		self.__def_change_simple_output()
 		self.__def_show_simple_output()
 
-		self.__def_keypress_getter()
-		self.keypressGetterDescription = f"stopKey = {self.stopKey}, pauseKey = {self.pauseKey}"
+		self.mustExplainLastOutput = mustExplainLastOutput
+		self.__def_get_last_output()
+		self.__def_explain_last_output()
 
 		self.__reset_run_variables()
 
 	def __def_run(self):
 		if not self.isRealtime and not self.isSummed:
 			self.__run = self.__run_simple
+
+	def __def_explain_last_output(self):
+		if not self.mustExplainLastOutput:
+			self.__explain_last_output = self.__do_nothing
+
+	def __def_get_last_output(self):
+		if self.isRealtime:
+			self.__get_last_output = self.__get_realtime_output
+		if self.isSummed and not self.isRealtime:
+			self.__get_last_output = self.__get_delayed_output
+		if not self.isSummed and not self.isRealtime:
+			self.__get_last_output = self.__get_simple_output
 			
 	def __def_show_simple_output(self):
-		if self.isRealtime or self.isSummed:
+		if self.isRealtime or self.isSummed or not self.mustShowOutput:
 			self.__show_simple_output = self.__do_nothing
 	
 	def __def_change_simple_output(self):
@@ -393,7 +433,7 @@ class Classifier:
 			self.__simple_classify = self.__do_nothing		
 
 	def __def_show_delayed_output(self):
-		if self.isRealtime:
+		if self.isRealtime or not self.mustShowOutput:
 			self.__show_delayed_output = self.__do_nothing
 
 	def __def_change_delayed_output(self):
@@ -414,7 +454,7 @@ class Classifier:
 			self.__end_summed_classify_progressbar = self.__do_nothing
 
 	def __def_show_realtime_output(self):	
-		if not self.isRealtime:
+		if not self.isRealtime or not self.mustShowOutput:
 			self.__show_realtime_output = self.__do_nothing
 
 	def __def_change_realtime_output(self):
@@ -503,6 +543,7 @@ import dataset
 import camera
 import keypress
 import running_time
+import explain
 try:
 	from cv2 import imshow as request_to_display, waitKey, destroyWindow as remove_pic_display
 except:
