@@ -12,19 +12,6 @@
 			"search_query" : "images from plant pictures"
 		}
 	},
-	"Pechay": {
-		"links": [
-			"https://www.youtube.com/watch?v=vOM4m0T-NCE"
-		],
-		"strings": {
-			"explain": {
-				"scientific_name":"Brassica rapa",
-				"medicinal_properties": "medicinal properties of Pechay",
-				"basic_needs": "basic needs of Pechay"
-			},
-			"search_query" : "images from plant pictures"
-		}
-	},
 	"C": {
 		"links": [
 			"https://www.youtube.com/watch?v=K8FmCDjWWbE"
