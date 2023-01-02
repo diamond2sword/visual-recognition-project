@@ -582,10 +582,10 @@ import config
 import class_dict_manager
 import onnx
 import dataset
-import camera
 import keypress
 import running_time
 import explain
+import camera
 try:
 	from cv2 import imshow as request_to_display, waitKey, destroyWindow as remove_pic_display
 except:
