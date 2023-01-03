@@ -12,7 +12,7 @@ def main():
 		isRealtime=False,
 		mustShowSummedClassifyProgress=True,
 		previewWaitTime=None,
-		previewWaitKey='z',
+		#previewWaitKey='z',
 	)
 	c.main()
 

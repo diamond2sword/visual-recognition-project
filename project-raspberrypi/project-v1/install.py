@@ -26,9 +26,9 @@ def create_test_dataset_dir():
 
 
 def download_onnx_model():
-	linkID = config.get_onnx_model_gdrive_link_id()
+	link = config.get_onnx_model_link()
 	path = config.get_onnx_model_path()
-	download_from_gdrive(id=linkID, output=path, quiet=False)
+	urlretrieve(link, path)
 
 def download_class_dict():
 	link = config.get_class_dict_link()

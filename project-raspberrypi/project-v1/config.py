@@ -109,9 +109,9 @@ def get_default_preview_time():
 	time = 3
 	return time
 
-def get_onnx_model_gdrive_link_id():
-	linkID = "1HfzcZEWfJaRDAKCPPHKVfWPKutCojDYD"
-	return linkID
+def get_onnx_model_link():
+	link = "https://raw.githubusercontent.com/diamond2sword/visual-recognition-project/main/models/model.onnx"
+	return link
 
 def get_class_dict_link():
 	link = "https://raw.githubusercontent.com/diamond2sword/visual-recognition-project/main/classifiers/plantClassifier/classDict.json"
