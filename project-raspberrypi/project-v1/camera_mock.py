@@ -21,7 +21,7 @@ def request_to_display(picWindowName, pic):
 	pass
 
 def remove_pic_display(picWindowName):
-    pass
+	pass
 
 def waitKey(time):
 	pass

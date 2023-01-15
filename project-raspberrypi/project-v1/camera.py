@@ -38,13 +38,23 @@ def update_pic_window():
 def get_camera():
 	return VideoCapture(0)
 
+def can_access_camera():
+	for camera in glob("/dev/video?"):
+		camera = VideoCapture(index)
+		if camera is None or not camera.isOpened():
+			continue
+		return True
+			
 
 import config
 import printer
 import running_time
 from PIL import Image
+from glob import glob
 try:
-	from cv2 import VideoCapture,  imshow as request_to_display, waitKey
+	from cv2 import VideoCapture, imshow as request_to_display, waitKey
+	if not can_access_camera():
+		raise Exception()
 except:
 	from camera_mock import VideoCapture, request_to_display, waitKey
 if __name__ == "__main__":

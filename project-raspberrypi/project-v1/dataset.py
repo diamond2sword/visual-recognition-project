@@ -156,4 +156,4 @@ from random import shuffle
 from PIL.Image import open as open_as_pil_image
 from os import listdir
 if __name__ == "__main__":
-    pass
+	pass

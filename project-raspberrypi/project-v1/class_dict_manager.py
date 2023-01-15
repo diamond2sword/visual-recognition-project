@@ -30,4 +30,4 @@ import config
 from random import shuffle
 from ast import literal_eval
 if __name__ == "__main__":
-    pass
+	pass

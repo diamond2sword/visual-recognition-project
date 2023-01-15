@@ -175,7 +175,7 @@ class Classifier:
 		return probabilities
 		
 	def __show_preview(self):
-		request_to_display(self.picWindowName, self.picArray)
+		camera.request_to_display(self.picWindowName, self.picArray)
 		self.__update_pic_window()
 		
 	def __save_input_pic(self):
@@ -291,7 +291,7 @@ class Classifier:
 		return labeledProbabilities
 
 	def __update_pic_window(self):
-		waitKey(1)
+		camera.waitKey(1)
 
 	def __end_stop_time_progressbar(self):
 		self.stopTimeProgressbar.close()
@@ -586,10 +586,6 @@ import keypress
 import running_time
 import explain
 import camera
-try:
-	from cv2 import imshow as request_to_display, waitKey, destroyWindow as remove_pic_display
-except:
-	from camera_mock import request_to_display, waitKey, remove_pic_display
 from torchvision.transforms import Resize, CenterCrop
 from torch.nn import Sequential
 from numpy import add as add_array, divide as divide_array
