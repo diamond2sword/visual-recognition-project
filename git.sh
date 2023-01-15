@@ -36,10 +36,6 @@ exec_git_command () {
 		args="$@"
 		reset_git_credentials
 		eval $git_command "$args"
-		is_var_set $git_command && {
-			echo "invalid git command"
-			exit 0	
-		}
 	}
 
 	is_var_set () {
@@ -60,6 +56,7 @@ exec_git_command () {
 declare_git_commands () {
 	unset () {
 		cd "$REPO_PATH"
+		echo hi
 		git config --global --unset credential.helper
 		git config --system --unset credential.helper
 		git config --global user.name "$GH_NAME"
