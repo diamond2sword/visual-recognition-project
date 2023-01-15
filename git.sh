@@ -56,7 +56,6 @@ exec_git_command () {
 declare_git_commands () {
 	unset () {
 		cd "$REPO_PATH"
-		echo hi
 		git config --global --unset credential.helper
 		git config --system --unset credential.helper
 		git config --global user.name "$GH_NAME"
