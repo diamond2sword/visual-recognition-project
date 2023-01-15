@@ -1,6 +1,8 @@
 {
 	"None": {
 		"links": [
+			"https://www.youtube.com/watch?v=9rqa8xPVIX4",
+			"https://www.youtube.com/watch?v=9rqa8xPVIX4",
 			"https://www.youtube.com/watch?v=9rqa8xPVIX4"
 		],
 		"strings": {
@@ -12,22 +14,9 @@
 			"search_query" : "images from plant pictures"
 		}
 	},
-	"Pechay": {
-		"links": [
-			"https://www.youtube.com/watch?v=vOM4m0T-NCE"
-		],
-		"strings": {
-			"explain": {
-				"scientific_name":"Brassica rapa",
-				"medicinal_properties": "medicinal properties of Pechay",
-				"basic_needs": "basic needs of Pechay"
-			},
-			"search_query" : "images from plant pictures"
-		}
-	},
 	"C": {
 		"links": [
-			"https://www.youtube.com/watch?v=K8FmCDjWWbE"
+			"https://www.youtube.com/watch?v=T-4e8XRRYKg"
 		],
 		"strings": {
 			"explain": {
@@ -40,7 +29,7 @@
 	},
 	"B": {
 		"links": [
-			"https://www.youtube.com/watch?v=ouBINMWobF4"
+			"https://www.youtube.com/watch?v=TpgxH5_oB9o"
 		],
 		"strings": {
 			"explain": {
@@ -53,7 +42,7 @@
 	},
 	"A": {
 		"links": [
-			"https://www.youtube.com/watch?v=GErYV4mwQ_g"
+			"https://www.youtube.com/watch?v=UbzFCv4x0fQ"
 		],
 		"strings": {
 			"explain": {
