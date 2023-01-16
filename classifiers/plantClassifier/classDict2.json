@@ -7,11 +7,11 @@
 		],
 		"strings": {
 			"explain": {
-				"scientific_name": "None none",
-				"medicinal_properties": "medicinal properties of None",
-				"basic_needs": "basic needs of None"
+				"scientific_name": ["None none"],
+				"medicinal_properties": ["medicinal properties of None"],
+				"basic_needs": ["basic needs of None"]
 			},
-			"search_query" : "images from plant pictures"
+			"search_query" : ["images from plant pictures"]
 		}
 	},
 	"C": {
@@ -20,11 +20,11 @@
 		],
 		"strings": {
 			"explain": {
-				"scientific_name": "C c",
-				"medicinal_properties": "medicinal properties of C",
-				"basic_needs": "basic needs of C"
+				"scientific_name": ["C c"],
+				"medicinal_properties": ["medicinal properties of C"],
+				"basic_needs": ["basic needs of C"]
 			},
-			"search_query" : "images from plant pictures"
+			"search_query" : ["images from plant pictures"]
 		}
 	},
 	"B": {
@@ -33,11 +33,11 @@
 		],
 		"strings": {
 			"explain": {
-				"scientific_name": "B b",
-				"medicinal_properties": "medicinal properties of B",
-				"basic_needs": "basic needs of B"
+				"scientific_name": ["B b"],
+				"medicinal_properties": ["medicinal properties of B"],
+				"basic_needs": ["basic needs of B"]
 			},
-			"search_query" : "images from plant pictures"
+			"search_query" : ["images from plant pictures"]
 		}
 	},
 	"A": {
@@ -46,11 +46,11 @@
 		],
 		"strings": {
 			"explain": {
-				"scientific_name": "A a",
-				"medicinal_properties": "medicinal properties of A",
-				"basic_needs": "basic needs of A"
+				"scientific_name": ["A a"],
+				"medicinal_properties": ["medicinal properties of A"],
+				"basic_needs": ["basic needs of A"]
 			},
-			"search_query" : "images from plant pictures"
+			"search_query" : ["images from plant pictures"]
 		}
 	}
 }
