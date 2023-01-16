@@ -14,7 +14,7 @@
 			"search_query" : "images from plant pictures"
 		}
 	},
-	"C": {
+	"": {
 		"links": [
 			"https://www.youtube.com/watch?v=T-4e8XRRYKg"
 		],
@@ -40,14 +40,18 @@
 			"search_query" : "images from plant pictures"
 		}
 	},
-	"A": {
+	"Solanum melongena": {
 		"links": [
 			"https://www.youtube.com/watch?v=UbzFCv4x0fQ"
 		],
 		"strings": {
 			"explain": {
-				"scientific_name": "A a",
-				"medicinal_properties": "medicinal properties of A",
+				"scientific_name": "Solanum melongena",
+				"medicinal_properties": " • Wash sores and ulcers.
+ • Expel worms.
+ • Liver problems.
+ • Rheumatism, gout, indigestion and constipation.
+ • Warts.",
 				"basic_needs": "basic needs of A"
 			},
 			"search_query" : "images from plant pictures"
