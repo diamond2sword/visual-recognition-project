@@ -30,4 +30,5 @@ import config
 from random import shuffle
 from ast import literal_eval
 if __name__ == "__main__":
-	pass
+	classLabels = get_class_labels()
+	print(classLabels)

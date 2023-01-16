@@ -1,17 +1,9 @@
 
 def main():
 	c = Classifier(
-		stopTime=5,
-		stopTakenPicLimit=5,
-		stopKey=True,
-		hasStopProgressbar=True,
-		pauseKey=True,
 		hasPreview=True,
 		picWindowName="The Pic",
-		isSummed=False,
-		isRealtime=False,
-		mustShowSummedClassifyProgress=True,
-		previewWaitTime=None,
+		#previewWaitTime=5,
 		#previewWaitKey='z',
 	)
 	c.main()
@@ -361,13 +353,13 @@ class Classifier:
 		stopTime=5,
 		stopTakenPicLimit=None,
 		stopKey=None, 
-		hasStopProgressbar=False,
+		hasStopProgressbar=None,
 		pauseKey=None,
 		hasPreview=False,
 		picWindowName=None,
 		isSummed=False,
 		isRealtime=False,
-		mustShowSummedClassifyProgress=False,
+		mustShowSummedClassifyProgress=None,
 		mustShowOutput=True,
 		mustExplainLastOutput=True,
 		previewWaitTime=None,

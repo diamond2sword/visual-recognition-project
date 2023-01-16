@@ -51,7 +51,7 @@ def normalized(pic):
 	]) 
 	pic = normalizeTransform(pic)
 	return pic
-   
+	
 def center_of(pic):
 	width, height = pic.size
 	width = min(width, height)
@@ -126,7 +126,7 @@ class InvalidClassLabelError(Exception):
 	def __init__(self, classLabel):
 		self.classLabel = classLabel
 		
-   	
+		
 
 class NoInputPictureFoundError(Exception):
 	def __str__(self):

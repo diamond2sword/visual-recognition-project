@@ -24,20 +24,24 @@ def create_test_dataset_dir():
 	path = config.get_test_dataset_path()
 	create_dir(path)
 
-
 def download_onnx_model():
 	link = config.get_onnx_model_link()
 	path = config.get_onnx_model_path()
-	urlretrieve(link, path)
+	download_file(link, path)
 
 def download_class_dict():
 	link = config.get_class_dict_link()
 	path = config.get_class_dict_path()
-	urlretrieve(link, path)
+	download_file(link, path)
 
 def create_dir(path):
 	makedirs(path, exist_ok=True)
 
+def download_file(link, path):
+	try:
+		urlretrieve(link, path)
+	except Exception:
+		print(f"can't download {path}, check internet connection")
 
 import config
 import class_dict_manager
