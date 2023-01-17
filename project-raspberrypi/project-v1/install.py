@@ -39,13 +39,24 @@ def create_dir(path):
 
 def download_file(link, path):
 	try:
-		urlretrieve(link, path)
+		print(f"downloading {path}...")
+		urlretrieve(link, path, progress_lambda)
+		print()
 	except Exception:
 		print(f"can't download {path}, check internet connection")
 
+def progress_lambda(block_num, block_size, total_size):
+	termCols = get_terminal_size().columns
+	barCols = termCols - 11
+	progress = min(block_num * block_size / total_size, 1)
+	percent = f"[{f'{progress*100:.2f}':>6}%]"
+	nbars = round(progress*barCols)
+	bar = f"[{nbars*'#':.<{barCols}}]"
+	print(f"{percent}{bar}", end="\r")
+
 import config
 import class_dict_manager
-from os import makedirs
+from os import makedirs, get_terminal_size
 from urllib.request import urlretrieve
 from gdown import download as download_from_gdrive
 if __name__ == "__main__":
