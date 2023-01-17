@@ -6,6 +6,8 @@ def main():
 		"ADD": add_class,
 		"DEL": del_class,
 		"ECHO": echo_class,
+		"SAVE": save_class,
+		"QUIT": None,
 	}
 	run(classDict, modes)
 
@@ -16,7 +18,15 @@ def run(classDict, modes):
 		modeName = read_sentence(f"mode {modeNames}: ")
 		if modeName not in modeNames:
 			continue
+		if modeName == "QUIT":
+			break
 		modes[modeName](classDict)
+
+def save_class(classDict):
+	classDictPath = config.get_class_dict_path()
+	inputPath = read_sentence(f"file path (default: {classDictPath}) [optional]:")
+	with open(classDictPath, "w") as file:
+		json.dump(classDict, file, indent=4, sort_keys=True)
 
 def edit_class(classDict):
 	className = read_sentence("class name: ")
@@ -54,6 +64,7 @@ def ask_recursively_for(parentDict, key):
 	if type(childDict) == type(dict()):		
 		for childName in childDict.keys():
 			ask_recursively_for(parentDict, f"{key}['{childName}']")
+		return
 	mustEdit = read_sentence(f"edit {key} [y]? ") == 'y'
 	if not mustEdit:
 		return
@@ -79,6 +90,7 @@ def read_sentence(question):
 	return input(question)
 
 import class_dict_manager
+import config
 from copy import deepcopy as cp
 import json
 if __name__ == "__main__":

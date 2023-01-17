@@ -350,7 +350,7 @@ class Classifier:
 							
 	def __init__(
 		self,
-		stopTime=5,
+		stopTime=None,
 		stopTakenPicLimit=None,
 		stopKey=None, 
 		hasStopProgressbar=None,
