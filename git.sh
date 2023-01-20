@@ -22,9 +22,8 @@ declare_strings () {
 	SSH_DIR_NAME=".ssh"
 	SSH_KEY_FILE_NAME="id_rsa"
 	ROOT_PATH="/root"
-	CMD_PATH="$0"
 	REPO_PATH="$ROOT_PATH/$REPO_NAME"
-	THIS_FILE_PATH="$CMD_PATH"
+	THIS_FILE_PATH="$ROOT_PATH/$0"
 	SSH_TRUE_DIR="$ROOT_PATH/$SSH_DIR_NAME"
 	SSH_REPO_DIR="$REPO_PATH/$SSH_DIR_NAME"
 	REPO_URL="https://github.com/$GH_NAME/$REPO_NAME"
@@ -35,6 +34,7 @@ exec_git_command () {
 	main () {
 		git_command=$1; shift
 		args="$@"
+		reset_credentials
 		eval $git_command "$args"
 	}
 
@@ -50,7 +50,8 @@ exec_git_command () {
 }
 
 declare_git_commands () {
-	unset () {
+	reset_credentials () {
+		cd "$REPO_PATH"
 		git config --global --unset credential.helper
 		git config --system --unset credential.helper
 		git config --global user.name "$GH_NAME"
@@ -59,7 +60,6 @@ declare_git_commands () {
 
 	push () {
 		cd "$REPO_PATH"
-		unset
 		git add .
 		git commit -m "$COMMIT_NAME"
 		git remote set-url origin "$SSH_REPO_URL"
@@ -93,7 +93,7 @@ declare_git_commands () {
 				}
 			}
 			:exit
-		}' $CMD_PATH
+		}' $THIS_FILE_PATH
 	}
 }
 
