@@ -35,7 +35,6 @@ exec_git_command () {
 	main () {
 		git_command=$1; shift
 		args="$@"
-		reset_git_credentials
 		eval $git_command "$args"
 	}
 
@@ -47,16 +46,11 @@ exec_git_command () {
 		return 0
 	}
 
-	reset_git_credentials () {
-		unset
-	}
-	
 	main "$@"
 }
 
 declare_git_commands () {
 	unset () {
-		cd "$REPO_PATH"
 		git config --global --unset credential.helper
 		git config --system --unset credential.helper
 		git config --global user.name "$GH_NAME"
@@ -65,6 +59,7 @@ declare_git_commands () {
 
 	push () {
 		cd "$REPO_PATH"
+		unset
 		git add .
 		git commit -m "$COMMIT_NAME"
 		git remote set-url origin "$SSH_REPO_URL"
