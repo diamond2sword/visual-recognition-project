@@ -35,18 +35,18 @@ def download_class_dict():
 	download_file(link, path)
 
 def create_dir(path):
-	makedirs(path, exist_ok=True)
+	os.makedirs(path, exist_ok=True)
 
 def download_file(link, path):
+	print(f"downloading {os.path.basename(path)}...")
 	try:
-		print(f"downloading {path}...")
 		urlretrieve(link, path, progress_lambda)
 		print()
 	except Exception:
 		print(f"can't download {path}, check internet connection")
 
 def progress_lambda(block_num, block_size, total_size):
-	termCols = get_terminal_size().columns
+	termCols = os.get_terminal_size().columns
 	barCols = termCols - 11
 	progress = min(block_num * block_size / total_size, 1)
 	percent = f"[{f'{progress*100:.2f}':>6}%]"
@@ -56,7 +56,7 @@ def progress_lambda(block_num, block_size, total_size):
 
 import config
 import class_dict_manager
-from os import makedirs, get_terminal_size
+import os
 from urllib.request import urlretrieve
 from gdown import download as download_from_gdrive
 if __name__ == "__main__":

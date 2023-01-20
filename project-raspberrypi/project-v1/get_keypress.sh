@@ -14,7 +14,6 @@ BUFFER_PATH="$1"; shift
 STOP_WORD="$1"; shift
 DESCRIPTION=("$@")
 
-
 get_keypress () {
 	ignore_enter_key
 	while true; do {
@@ -95,4 +94,4 @@ ignore_enter_key () {
 }
 
 init
-main
+main "$@"

@@ -1,7 +1,3 @@
-
-
-
-
 def print_pic(pic):
 	pic = to_printable_image(pic)
 	print(f"\n{pic}")

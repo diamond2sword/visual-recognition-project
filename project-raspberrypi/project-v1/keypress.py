@@ -1,20 +1,6 @@
 def main():
 	exec_while_ignoring_enter_key(test)
 
-def test():
-	mainStopKey = "k"
-	remoteStopKey = "y"
-	description = f"stopKey = {mainStopKey}"
-	start_keypress_getter(description)
-	while True:
-		mustStop = check_input(f"stop keypress getter?[{remoteStopKey}]: ", remoteStopKey)
-		if is_pressed(mainStopKey):
-			break
-		if mustStop:
-			break
-	stop_keypress_getter()
-
-
 def is_pressed(testKey):
 	isPressed = exec_keypress_checker_script(testKey)
 	reset_keypress_buffer()
@@ -76,10 +62,22 @@ def check_input(question, goodAnswer):
 	if processResult.returncode == 0:
 		return True
 
+def test():
+	mainStopKey = "k"
+	remoteStopKey = "y"
+	description = f"stopKey = {mainStopKey}"
+	start_keypress_getter(description)
+	while True:
+		mustStop = check_input(f"stop keypress getter?[{remoteStopKey}]: ", remoteStopKey)
+		if is_pressed(mainStopKey):
+			break
+		if mustStop:
+			break
+	stop_keypress_getter()
+
 import config
 import running_time
 import subprocess
-from subprocess import STDOUT
 import sys
 if __name__ == "__main__":
 	main()	

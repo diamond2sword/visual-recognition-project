@@ -26,7 +26,7 @@ class Classifier:
 			self.__update_stop_progressbar()
 			if self.__check_for_stop():
 				break
-			self.__get_pictures()
+			self.__get_input_pic()
 			self.__show_preview()
 			if self.__check_pause_key():
 				continue
@@ -48,7 +48,7 @@ class Classifier:
 		self.__wake_up_camera()
 		self.__reset_run_variables()
 		self.__preview_until_wait()
-		self.__get_pictures()
+		self.__get_input_pic()
 		self.__show_preview()
 		self.__simple_classify()
 		self.__change_simple_output()
@@ -173,11 +173,11 @@ class Classifier:
 	def __save_input_pic(self):
 		self.savedInputPics.append(self.inputPic)
 		
-	def __get_pictures(self):
-		self.picArray = camera.take_photo_with(self.camera)
-		self.pilPic = Image.fromarray(self.picArray)
-		self.centeredPic = self.__center_transform(self.pilPic)
-		self.inputPic = dataset.to_onnx_input(self.centeredPic)
+	def __get_input_pic(self):
+		pic = camera.take_photo_with(self.camera)
+		pic = Image.fromarray(pic)
+		pic = dataset.center_of(pic)
+		self.inputPic = dataset.to_onnx_input(pic)
 
 	def __check_pause_key(self):
 		if keypress.is_pressed(self.pauseKey):
@@ -240,7 +240,7 @@ class Classifier:
 		remove_pic_display(self.picWindowName)
 		
 	def __wake_up_camera(self):
-		self.__get_pictures()
+		self.__get_input_pic()
 		self.__show_preview()
 
 ######################## ABSTRACTION LEVEL 2 #########################
@@ -383,7 +383,6 @@ class Classifier:
 		self.keypressGetterDescription = f"stopKey = {self.stopKey}, pauseKey = {self.pauseKey}"
 	
 		self.camera = camera.get_camera()
-		self.__def_center_transform()
 		
 		self.model = onnx.get_onnx_model()
 		self.modelInputName = onnx.get_input_name_of(self.model)
@@ -513,17 +512,7 @@ class Classifier:
 			self.picWindowName = config.get_pic_window_name()
 		if not self.hasPreview:
 			self.__show_preview = self.__do_nothing
-			
-	def __def_center_transform(self):
-		camPicArray = camera.take_photo_with(self.camera)
-		camPilPic = Image.fromarray(camPicArray)
-		camPicWidth = min(camPilPic.size)
-		picSize = config.get_pic_size()
-		self.__center_transform = Sequential(
-			CenterCrop(camPicWidth),
-			Resize(picSize),
-		)
-		
+					
 	def __def_check_pause_key(self):
 		if self.pauseKey is None:
 			self.__check_pause_key = self.__do_nothing
@@ -578,8 +567,6 @@ import keypress
 import running_time
 import explain
 import camera
-from torchvision.transforms import Resize, CenterCrop
-from torch.nn import Sequential
 from numpy import add as add_array, divide as divide_array
 from tqdm import tqdm as Progressbar
 from PIL import Image

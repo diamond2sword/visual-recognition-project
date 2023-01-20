@@ -11,7 +11,7 @@ def preview_until(time=None, key=None, mustShow=True):
 	picWindowName = config.get_pic_window_name()
 	while not runningTime.is_up():
 		preview_once_with(camera, picWindowName, mustShow=mustShow)
-	camera.release()
+	camera.release()		
 		
 def take_photo():
 	camera = VideoCapture(0)
@@ -58,4 +58,5 @@ try:
 except:
 	from camera_mock import VideoCapture, request_to_display, waitKey
 if __name__ == "__main__":
-	main()
+	take_photo()
+

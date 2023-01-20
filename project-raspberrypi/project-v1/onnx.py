@@ -2,7 +2,6 @@
 def main():
 	#classify_from_test_dataset()
 	classify_from_camera(previewTime=10, mustShowPreview=False)
-
 	
 def classify_from_camera(picLabel=None, previewTime=None, mustShowPreview=True):
 	if picLabel is None:
@@ -31,7 +30,7 @@ def show_output(pic, picLabel, probabilities):
 	classLabels = class_dict_manager.get_class_labels()
 	printer.print_str(f"true label: {picLabel}")
 	printer.print_str(f"predicted label: {classLabels[predictedIndex]}")
-		
+
 def get_probabilities_by_running(model, inputPic):
 	inputName = get_input_name_of(model)
 	scores = model.run(None, {inputName: inputPic})

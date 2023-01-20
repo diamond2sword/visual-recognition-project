@@ -62,7 +62,6 @@ def center_of(pic):
 	)
 	pic = centerTransform(pic)
 	return pic
-
 	
 
 def get_labeled_pic_names_from_test_dataset():
