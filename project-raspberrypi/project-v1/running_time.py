@@ -14,11 +14,11 @@ class Time:
 		spent = self.until - self.remaining()
 		return spent
 
-    def reset(self):
+	def reset(self):
 		now = get_time()
 		self.end = now + self.until
 
-    def __str__(self):
+	def __str__(self):
 		return self.remaining()
 
 	def __init__(self, until):
