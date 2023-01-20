@@ -1,7 +1,7 @@
 #!/bin/bash
 
 main () (
-	declare_strings
+	declare_strings "$@"
 	declare_git_commands
 	declare_ssh_auth_eval
 	add_ssh_key_to_ssh_agent
@@ -22,8 +22,9 @@ declare_strings () {
 	SSH_DIR_NAME=".ssh"
 	SSH_KEY_FILE_NAME="id_rsa"
 	ROOT_PATH="/root"
+	GITSH_DIR="$0"
 	REPO_PATH="$ROOT_PATH/$REPO_NAME"
-	THIS_FILE_PATH="$ROOT_PATH/$THIS_FILE_NAME"
+	THIS_FILE_PATH="$REPO_PATH/$THIS_FILE_NAME"
 	SSH_TRUE_DIR="$ROOT_PATH/$SSH_DIR_NAME"
 	SSH_REPO_DIR="$REPO_PATH/$SSH_DIR_NAME"
 	REPO_URL="https://github.com/$GH_NAME/$REPO_NAME"
@@ -97,7 +98,7 @@ declare_git_commands () {
 				}
 			}
 			:exit
-		}' $THIS_FILE_PATH
+		}' $GITSH_DIR/$THIS_FILE_NAME
 	}
 }
 
