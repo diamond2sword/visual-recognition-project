@@ -4,7 +4,7 @@ def main():
 		hasPreview=True,
 		picWindowName="The Pic",
 		#previewWaitTime=5,
-		#previewWaitKey='z',
+		previewWaitKey='z',
 	)
 	c.main()
 
