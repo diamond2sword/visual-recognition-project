@@ -50,6 +50,14 @@ def is_in_termux():
 		return False
 	return True
 
+class CameraNotFoundError(Exception):
+	def __str__(self):
+		errorMessage = self.__get_error_message()
+		return errorMessage	
+	
+	def __get_error_message(self):
+		return f"No camera is detected. If this error occured even though the camera is already plugged in, replug it."
+
 
 import config
 import printer
@@ -59,9 +67,12 @@ from PIL import Image
 from glob import glob
 try:
 	from cv2 import VideoCapture, imshow as request_to_display, waitKey
-	if not can_access_camera() and is_in_termux():
-		raise Exception()
-except:
+	if not can_access_camera():
+		if is_in_termux():
+			raise Exception()
+		else:
+			raise CameraNotFoundError("")
+except Exception:
 	from camera_mock import VideoCapture, request_to_display, waitKey
 if __name__ == "__main__":
 	take_photo()
