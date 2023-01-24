@@ -56,7 +56,7 @@ class CameraNotFoundError(Exception):
 		return errorMessage	
 	
 	def __get_error_message(self):
-		return f"Cannot find any camera. If this error occured even though the camera is already plugged in, replug it."
+		return f"Cannot find any camera. If this error occured even though a camera is already plugged in, replug the camera."
 
 
 import config
