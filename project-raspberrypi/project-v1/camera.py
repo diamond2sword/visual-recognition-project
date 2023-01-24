@@ -44,16 +44,22 @@ def can_access_camera():
 		if camera is None or not camera.isOpened():
 			continue
 		return True
-			
+	
+def is_in_termux():
+	if not os.path.isdir("/data/data/com.termux/files/home/"):
+		continue
+	return True
+
 
 import config
 import printer
 import running_time
+import os
 from PIL import Image
 from glob import glob
 try:
 	from cv2 import VideoCapture, imshow as request_to_display, waitKey
-	if not can_access_camera():
+	if not can_access_camera() && is_in_termux():
 		raise Exception()
 except:
 	from camera_mock import VideoCapture, request_to_display, waitKey
