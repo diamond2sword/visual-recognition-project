@@ -39,7 +39,7 @@ def get_camera():
 	return VideoCapture(0)
 
 def can_access_camera():
-	for camera in glob("/dev/video?"):
+	for index in glob("/dev/video?"):
 		camera = VideoCapture(index)
 		if camera is None or not camera.isOpened():
 			continue
@@ -56,7 +56,7 @@ class CameraNotFoundError(Exception):
 		return errorMessage	
 	
 	def __get_error_message(self):
-		return f"No camera is detected. If this error occured even though the camera is already plugged in, replug it."
+		return f"Cannot find any camera. If this error occured even though the camera is already plugged in, replug it."
 
 
 import config
