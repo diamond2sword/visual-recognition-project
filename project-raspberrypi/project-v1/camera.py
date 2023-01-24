@@ -67,11 +67,10 @@ from PIL import Image
 from glob import glob
 try:
 	from cv2 import VideoCapture, imshow as request_to_display, waitKey
+	if is_in_termux():
+		raise Exception()
 	if not can_access_camera():
-		if is_in_termux():
-			raise Exception()
-		else:
-			raise CameraNotFoundError()
+		raise CameraNotFoundError()
 except Exception:
 	from camera_mock import VideoCapture, request_to_display, waitKey
 if __name__ == "__main__":
