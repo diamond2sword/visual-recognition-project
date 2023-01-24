@@ -71,7 +71,7 @@ try:
 		if is_in_termux():
 			raise Exception()
 		else:
-			raise CameraNotFoundError("")
+			raise CameraNotFoundError()
 except Exception:
 	from camera_mock import VideoCapture, request_to_display, waitKey
 if __name__ == "__main__":
