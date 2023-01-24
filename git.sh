@@ -23,7 +23,6 @@ declare_strings () {
 	SSH_KEY_FILE_NAME="id_rsa"
 	ROOT_PATH="/root"
 	REPO_PATH="$ROOT_PATH/$REPO_NAME"
-	THIS_FILE_PATH="$ROOT_PATH/$0"
 	SSH_TRUE_DIR="$ROOT_PATH/$SSH_DIR_NAME"
 	SSH_REPO_DIR="$REPO_PATH/$SSH_DIR_NAME"
 	REPO_URL="https://github.com/$GH_NAME/$REPO_NAME"
@@ -76,10 +75,14 @@ declare_git_commands () {
 	config () {
 		KEY_NAME=$1; shift
 		NEW_VALUE=$1
+		[[ "$KEY_NAME" == "REPO_NAME" ]] && {
+			REPO_NAME="$NEW_VALUE"
+		}
+
 		sed -i '{
-			/^STRINGS=/{
+			/^declare_strings/{
 				:start
-				/\nEOF/!{
+				/\n\}/!{
 					/'"$KEY_NAME"'=/{
 						b found
 					}
@@ -88,12 +91,12 @@ declare_git_commands () {
 				}
 				b exit
 				:found
-				/^STRINGS=/!{
-					s/'"$KEY_NAME"'.*$/'"$KEY_NAME"'="'"$NEW_VALUE"'"/
+				/^declare_strings/!{
+					s/'"$KEY_NAME"'=.*$/'"$KEY_NAME"'="'"$NEW_VALUE"'"/
 				}
 			}
 			:exit
-		}' $THIS_FILE_PATH
+		}' $ROOT_PATH/$REPO_NAME/$THIS_FILE_NAME
 	}
 }
 
