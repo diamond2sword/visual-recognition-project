@@ -47,7 +47,7 @@ def can_access_camera():
 	
 def is_in_termux():
 	if not os.path.isdir("/data/data/com.termux/files/home/"):
-		continue
+		return False
 	return True
 
 
