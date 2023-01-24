@@ -59,7 +59,7 @@ from PIL import Image
 from glob import glob
 try:
 	from cv2 import VideoCapture, imshow as request_to_display, waitKey
-	if not can_access_camera() && is_in_termux():
+	if not can_access_camera() and is_in_termux():
 		raise Exception()
 except:
 	from camera_mock import VideoCapture, request_to_display, waitKey
