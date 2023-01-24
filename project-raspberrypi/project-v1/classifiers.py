@@ -174,8 +174,8 @@ class Classifier:
 		self.savedInputPics.append(self.inputPic)
 		
 	def __get_input_pic(self):
-		pic = camera.take_photo_with(self.camera)
-		pic = Image.fromarray(pic)
+		self.picArray = camera.take_photo_with(self.camera)
+		pic = Image.fromarray(self.picArray)
 		pic = dataset.center_of(pic)
 		self.inputPic = dataset.to_onnx_input(pic)
 
@@ -221,8 +221,6 @@ class Classifier:
 	def __reset_run_variables(self):
 		self.timeProgressBar = None
 		self.picArray = None
-		self.pilPic = None
-		self.centeredPic = None
 		self.inputPic = None
 		self.savedInputPics = []
 		self.isPaused = False
