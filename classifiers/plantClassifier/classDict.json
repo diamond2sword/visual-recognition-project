@@ -1,151 +1,174 @@
 {
-	"Abelmoschus-esculentus": {
-		"links": [
-			"https://www.youtube.com/watch?v=T-4e8XRRYKg"
-		],
-		"strings": {
-			"explain": {
-				"1_common_name": [
-					"Okra (Lady's Finger)"
-				],
-				"2_scientific_name": [
-					"Abelmoschus esculentus"
-				],
-				"3_medicinal_properties": [
-					"\u2022 Soothes and protects the alimentary tract. ",
-					"\u2022 It acts as a softener of inflamed parts.",
-					"\u2022 Relieves flatulence and griping pains from the stomach and bowels.",
-					"\u2022 Prevents or cures spasms.",
-					"\u2022 As a laxative.",
-					"\u2022 Controls pneumonia, bronchitis, urinary problems, heart diseases and tuberculosis of the lungs."
-				],
-				"4_basic_needs": [
-					"Okra needs full sun and hot weather with evening temperatures that are in the 60s (Fahrenheit) or warmer. Soil needs to be fertile and well-drained neutral pH of 6.5 to 7.0."
-				]
-			},
-			"search_query": [
-				"Okra (Lady's Finger)",
-				"Abelmoschus esculentus"
-			]
-		}
-	},
-	"Brassica-rapa": {
-		"links": [
-			"https://www.youtube.com/watch?v=vOM4m0T-NCE",
-			"https://www.youtube.com/watch?v=vOM4m0T-NCE"
-		],
-		"strings": {
-			"explain": {
-				"1_common_name": [
-					"Pechay (Bok Choy)"
-				],
-				"2_scientific_name": [
-					"Brassica rapa subsp. chinensis"
-				],
-				"3_medicinal_properties": [
-					"\u2022 Lower risk of developing lung, prostate, and colon cancer.",
-					"\u2022 Help reduce the risk of bone fractures.",
-					"\u2022 They can help decrease blood pressure naturally.",
-					"\u2022 Help to maintain a healthy heart.",
-					"\u2022 Helps with sleep, muscle movement, learning, and memory."
-				],
-				"4_basic_needs": [
-					"Pechay needs to receive atleast 4 to 6 hours of direct sunlight,water, fertilizer,and a places with tempersture between 18\u00b0C (64.4\u00b0F) to 29.44\u00b0C (85\u00b0F)."
-				]
-			},
-			"search_query": [
-				"Brassica rapa",
-				"Brassica rapa subsp. chinensis",
-				"Pechay (Bok Choy)"
-			]
-		}
-	},
-	"Capsicum-frutescens": {
-		"links": [
-			"https://www.youtube.com/watch?v=TpgxH5_oB9o"
-		],
-		"strings": {
-			"explain": {
-				"1_common_name": [
-					"Sili (Chilli)"
-				],
-				"2_scientific_name": [
-					"Capsicum frutescens"
-				],
-				"3_medicinal_properties": [
-					"\u2022 Helps in digestion if used in very small quantities.",
-					"\u2022 Stimulates appetite.",
-					"\u2022 Purifies the blood.",
-					"\u2022 Alters the process of nutrition and excretion and restores the normal function of the body. ",
-					"\u2022 Reduces or eliminates fever.",
-					"\u2022 Strengthens and gives tone to the stomach.",
-					"\u2022 Gives tone and vitality to the body.",
-					"\u2022 Externally used to give relief from rheumatism, arthritis, chest pain and inflammation of the pericardium.",
-					"\u2022 For relief from toothaches, inflamed tonsils and early stages of throat diseases in children."
-				],
-				"4_basic_needs": [
-					"Chili pepper plants need well-draining soil that is rich in organic matter, sunny location, sufficient water and fertilizer."
-				]
-			},
-			"search_query": [
-				"Sili (Chilli)",
-				"Capsicum frutescens",
-				"Chili pepper plants"
-			]
-		}
-	},
-	"None": {
-		"links": [
-			"https://www.youtube.com/watch?v=9rqa8xPVIX4",
-			"https://www.youtube.com/watch?v=9rqa8xPVIX4"
-		],
-		"strings": {
-			"explain": {
-				"1_common_name": [
-					"None"
-				],
-				"2_scientific_name": [
-					"None none"
-				],
-				"3_medicinal_properties": [
-					"medicinal properties of None"
-				],
-				"4_basic_needs": [
-					"basic needs of None"
-				]
-			},
-			"search_query": [
-				"images of flat surface"
-			]
-		}
-	},
-	"Solanum-melongena": {
-		"links": [
-			"https://www.youtube.com/watch?v=UbzFCv4x0fQ"
-		],
-		"strings": {
-			"explain": {
-				"1_common_name": [
-					"Talong (Eggplant)"
-				],
-				"2_scientific_name": [
-					"Solanum melongena"
-				],
-				"3_medicinal_properties": [
-					"\u2022 Wash sores and ulcers.",
-					"\u2022 Expel worms.",
-					"\u2022 Liver problems.",
-					"\u2022 Rheumatism, gout, indigestion and constipation.",
-					"\u2022 Warts."
-				],
-				"4_basic_needs": [
-					"Eggplants are warm-season crops which require a long growing season.They grow best in regions where the daytime temperature is between 26 and 32\u00b0C (80\u201390\u00b0F) and night time temperatures around 21\u00b0C (70\u00b0F). In addition, eggplant is a sun loving plant and should be positioned in an area that receives full sunlight. Plants will perform best when planted in a fertile soil with a pH between 6.3 and 6.8."
-				]
-			},
-			"search_query": [
-				"Talong (Eggplant)",
-				"Solanum melongena"
-			]
-		}
-	}
+    "Abelmoschus-esculentus": {
+        "links": [
+            "https://www.youtube.com/watch?v=66tb2njDowY"
+        ],
+        "strings": {
+            "explain": {
+                "1_common_name": [
+                    "Okra (Lady's Finger)"
+                ],
+                "2_scientific_name": [
+                    "Abelmoschus esculentus"
+                ],
+                "3_medicinal_properties": [
+                    "\u2022 Soothes and protects the alimentary tract. ",
+                    "\u2022 It acts as a softener of inflamed parts.",
+                    "\u2022 Relieves flatulence and griping pains from the stomach and bowels.",
+                    "\u2022 Prevents or cures spasms.",
+                    "\u2022 As a laxative.",
+                    "\u2022 Controls pneumonia, bronchitis, urinary problems, heart diseases and tuberculosis of the lungs."
+                ],
+                "4_basic_needs": [
+                    "Okra needs full sun and hot weather with evening temperatures that are in the 60s (Fahrenheit) or warmer. Soil needs to be fertile and well-drained neutral pH of 6.5 to 7.0."
+                ]
+            },
+            "search_query": [
+                "Okra (Lady's Finger)",
+                "Abelmoschus esculentus"
+            ]
+        }
+    },
+    "Brassica-rapa": {
+        "links": [
+            "https://www.youtube.com/watch?v=IrhjppIHgGk"
+        ],
+        "strings": {
+            "explain": {
+                "1_common_name": [
+                    "Pechay (Bok Choy)"
+                ],
+                "2_scientific_name": [
+                    "Brassica rapa subsp. chinensis"
+                ],
+                "3_medicinal_properties": [
+                    "\u2022 Lower risk of developing lung, prostate, and colon cancer.",
+                    "\u2022 Help reduce the risk of bone fractures.",
+                    "\u2022 They can help decrease blood pressure naturally.",
+                    "\u2022 Help to maintain a healthy heart.",
+                    "\u2022 Helps with sleep, muscle movement, learning, and memory."
+                ],
+                "4_basic_needs": [
+                    "Pechay needs to receive atleast 4 to 6 hours of direct sunlight,water, fertilizer,and a places with tempersture between 18\u00b0C (64.4\u00b0F) to 29.44\u00b0C (85\u00b0F)."
+                ]
+            },
+            "search_query": [
+                "Brassica rapa",
+                "Brassica rapa subsp. chinensis",
+                "Pechay (Bok Choy)"
+            ]
+        }
+    },
+    "Capsicum-frutescens": {
+        "links": [
+            "https://www.youtube.com/watch?v=BJSqyNGoDuM"
+        ],
+        "strings": {
+            "explain": {
+                "1_common_name": [
+                    "Sili (Chilli)"
+                ],
+                "2_scientific_name": [
+                    "Capsicum frutescens"
+                ],
+                "3_medicinal_properties": [
+                    "\u2022 Helps in digestion if used in very small quantities.",
+                    "\u2022 Stimulates appetite.",
+                    "\u2022 Purifies the blood.",
+                    "\u2022 Alters the process of nutrition and excretion and restores the normal function of the body. ",
+                    "\u2022 Reduces or eliminates fever.",
+                    "\u2022 Strengthens and gives tone to the stomach.",
+                    "\u2022 Gives tone and vitality to the body.",
+                    "\u2022 Externally used to give relief from rheumatism, arthritis, chest pain and inflammation of the pericardium.",
+                    "\u2022 For relief from toothaches, inflamed tonsils and early stages of throat diseases in children."
+                ],
+                "4_basic_needs": [
+                    "Chili pepper plants need well-draining soil that is rich in organic matter, sunny location, sufficient water and fertilizer."
+                ]
+            },
+            "search_query": [
+                "Sili (Chilli)",
+                "Capsicum frutescens",
+                "Chili pepper plants"
+            ]
+        }
+    },
+    "None": {
+        "links": [
+            "https://www.youtube.com/watch?v=F-toa5fk_Ds"
+        ],
+        "strings": {
+            "explain": {
+                "1_common_name": [
+                    "None"
+                ],
+                "2_scientific_name": [
+                    "None none"
+                ],
+                "3_medicinal_properties": [
+                    "medicinal properties of None"
+                ],
+                "4_basic_needs": [
+                    "basic needs of None"
+                ]
+            },
+            "search_query": [
+                "images of flat surface"
+            ]
+        }
+    },
+    "Solanum-lycopersicum": {
+        "links": [
+            "https://www.youtube.com/watch?v=KnQ58LrkOA8"
+        ],
+        "strings": {
+            "explain": {
+                "1_common_name": [
+                    "Kamatis"
+                ],
+                "2_scientific_name": [
+                    "Solanum Lycopersicum"
+                ],
+                "3_medicinal_properties": [
+                    "medicinal properties of Kamatis"
+                ],
+                "4_basic_needs": [
+                    "basic needs of Kamatis"
+                ]
+            },
+            "search_query": [
+                "Kamatis (Tomato)",
+                "Solanum Lycopersicum"
+            ]
+        }
+    },
+    "Solanum-melongena": {
+        "links": [
+            "https://www.youtube.com/watch?v=5_D96F8ICbs"
+        ],
+        "strings": {
+            "explain": {
+                "1_common_name": [
+                    "Talong (Eggplant)"
+                ],
+                "2_scientific_name": [
+                    "Solanum melongena"
+                ],
+                "3_medicinal_properties": [
+                    "\u2022 Wash sores and ulcers.",
+                    "\u2022 Expel worms.",
+                    "\u2022 Liver problems.",
+                    "\u2022 Rheumatism, gout, indigestion and constipation.",
+                    "\u2022 Warts."
+                ],
+                "4_basic_needs": [
+                    "Eggplants are warm-season crops which require a long growing season.They grow best in regions where the daytime temperature is between 26 and 32\u00b0C (80\u201390\u00b0F) and night time temperatures around 21\u00b0C (70\u00b0F). In addition, eggplant is a sun loving plant and should be positioned in an area that receives full sunlight. Plants will perform best when planted in a fertile soil with a pH between 6.3 and 6.8."
+                ]
+            },
+            "search_query": [
+                "Talong (Eggplant)",
+                "Solanum melongena"
+            ]
+        }
+    }
 }
