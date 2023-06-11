@@ -298,8 +298,9 @@ start_root_empty () {
 }
 
 start_root_classify () {
-	 python3 $PROJECT_MAIN_FILE_PATH
+	 echo start classifier...[exit termux to cancel]
 	 set_root_start EMPTY
+	 python3 $PROJECT_MAIN_FILE_PATH
 }
 
 start_root_start_classify () {
@@ -309,8 +310,9 @@ start_root_start_classify () {
 }
 
 start_root_rpi_classify () {
-	 python3 $PROJECT_RPI_MAIN_FILE_PATH
+	 echo start classifier...[exit termux to cancel]
 	 set_root_start EMPTY
+	 python3 $PROJECT_RPI_MAIN_FILE_PATH
 }
 
 start_root_rpi_start_classify () {
@@ -323,7 +325,6 @@ exec_loop_cmd () {
 	 cmd=$1
 	 case $cmd in
 		  1) {
-				echo start classifier...
 				project-rpi-classify
 		  };;
 		  *) {
