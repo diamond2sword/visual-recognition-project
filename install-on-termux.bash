@@ -286,7 +286,9 @@ custom_root_start_main () {
 
 start_root_loop () {
 	start_root_empty
-	files="$(ls -1 $HOME_PATH/downloads)"
+	downloads_path=$HOME_PATH/downloads
+	mkdir -p $downloads_path
+	files="$(ls -1 $downloads_path)"
 	[[ "$files" ]] && {
 		echo classify imported pic...
 		project-rpi-import
@@ -325,6 +327,29 @@ start_root_rpi_start_classify () {
 	set_exit RPI_CLASSIFY
 	exit
 }
+
+exec_loop_cmd () {
+	cmd=$1
+	case $cmd in
+		1) {
+			project-rpi-classify
+		};;
+		2) {
+			project-rpi-exit
+		};;
+		*) {
+			echo command not found...
+		};;
+	esac
+}
+
+LOOP_QUESTION=$(cat << "EOF2"
+\e[1;96mHOW TO IMPORT: \e[2;36mUse a file manager to share a picture to Termux then click 'Open Directory' to classify it\e[0m
+Enter a number to execute a command...
+1. start classifier
+2. exit
+EOF2
+)
 
 EOF
 )
@@ -371,6 +396,7 @@ project-rpi-exit () {
 	set_root_start EMPTY
 	exit
 }
+
 EOF
 )
 
