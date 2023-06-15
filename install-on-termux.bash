@@ -368,17 +368,19 @@ project-rpi-classify () {
 project-rpi-import () {
          downloads_path="$HOME_PATH/downloads"
          mkdir -p $downloads_path
-         files=($(ls -t -1 $downloads_path))
+         files=("$(ls -1 $downloads_path)")
          ! [[ "$files" ]] && {
                 echo "No files found, import a file by sharing it to termux."
                 return
          }
-         pic_name=${files[0]}
-         echo I will classify $pic_name.
-         python3 -c "from PIL import Image;pic = Image.open(\"$downloads_path/$pic_name\");pic = pic.convert(\"RGB\");pic.save(\"$RPI_ANY_CLASS_PATH/$PICTURE_NAME\")"
+         pic_name="${files[0]}"
+         cp "$downloads_path/$pic_name" "$RPI_ANY_CLASS_PATH/$PICTURE_NAME"
+         for file in "${files[@]}"; {
+                 rm "$downloads_path/$file"
+         }
          echo start classifier...[exit termux to cancel]
          set_root_start EMPTY
-         python3 "$PROJECT_RPI_PATH/import_classifiers.py"
+         python3 $PROJECT_RPI_PATH/import_classifiers.py
 }
 
 project-start () {
