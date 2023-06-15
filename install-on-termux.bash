@@ -374,7 +374,7 @@ project-rpi-import () {
 		return
 	}
 	pic_name="${files[0]}"
-	cp "$downloads_path/$pic_name" "$RPI_ANY_CLASS_PATH/$PICTURE_NAME"
+	python3 -c "from PIL import Image;pic = Image.open(\"$downloads_path/$pic_name\");pic = pic.convert(\"RGB\");pic.save(\"$RPI_ANY_CLASS_PATH/$PICTURE_NAME\")"
 	for file in "${files[@]}"; {
 		rm "$downloads_path/$file"
 	}
