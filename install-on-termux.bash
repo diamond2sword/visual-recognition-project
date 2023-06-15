@@ -374,7 +374,7 @@ project-rpi-import () {
                 return
          }
          pic_name=${files[0]}
-         echo I wil classify $pic_name.
+         echo I will classify $pic_name.
          python3 -c "from PIL import Image;pic = Image.open(\"$downloads_path/$pic_name\");pic = pic.convert(\"RGB\");pic.save(\"$RPI_ANY_CLASS_PATH/$PICTURE_NAME\")"
          echo start classifier...[exit termux to cancel]
          set_root_start EMPTY
