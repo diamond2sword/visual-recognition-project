@@ -14,7 +14,8 @@ run () {
 
 fix_indents () {
 	two_spc='  '
-	./replace_str.sh '*' "$two_spc$two_spc" '\t'
+	./replace_str.sh '*.py' "$two_spc$two_spc" '\t'
+	./replace_str.sh '*.sh' "$two_spc$two_spc" '\t'
 }
 
 main "$@"

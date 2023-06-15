@@ -12,9 +12,16 @@ def preview_until(time=None, key=None, mustShow=True):
 	while not runningTime.is_up():
 		preview_once_with(camera, picWindowName, mustShow=mustShow)
 	camera.release()		
-		
+
+def wake_up():
+	picWindowName = config.get_pic_window_name()
+	camera = get_camera()
+	isCaptured, pic = camera.read()
+	request_to_display(picWindowName, pic)
+	update_pic_window()	
+
 def take_photo():
-	camera = VideoCapture(0)
+	camera = get_camera()
 	picArray = take_photo_with(camera)
 	pic = Image.fromarray(picArray)
 	camera.release()
@@ -66,9 +73,9 @@ import os
 from PIL import Image
 from glob import glob
 if is_in_termux():
-	from camera_mock import VideoCapture, request_to_display, waitKey
+	from camera_mock import VideoCapture, request_to_display, waitKey, wake_up
 else:
-	from cv2 import VideoCapture, imshow as request_to_display, waitKey
+	from cv2 import VideoCapture, imshow as request_to_display, waitKey, wake_up
 	if not can_access_camera():
 		raise CameraNotFoundError()	
 if __name__ == "__main__":

@@ -27,9 +27,14 @@ class VideoCapture():
 	def __init__(self, arg1):
 		pass
 
+def wake_up():
+	pass
+
 
 def request_to_display(picWindowName, pic):
-	pass
+	pic = Image.fromarray(pic)
+	pic = dataset.center_of(pic)
+	printer.print_pic(pic)
 
 def remove_pic_display(picWindowName):
 	pass
@@ -40,6 +45,7 @@ def waitKey(time):
 
 import dataset
 import class_dict_manager
+import printer
 import os
 import numpy
 from PIL import Image

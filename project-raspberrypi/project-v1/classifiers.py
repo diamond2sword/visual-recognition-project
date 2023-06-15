@@ -238,8 +238,7 @@ class Classifier:
 		remove_pic_display(self.picWindowName)
 		
 	def __wake_up_camera(self):
-		self.__get_input_pic()
-		self.__show_preview()
+		camera.wake_up()
 
 ######################## ABSTRACTION LEVEL 2 #########################
 
