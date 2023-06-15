@@ -276,66 +276,74 @@ EOF
 CUSTOM_ROOT_START=$(cat << \EOF
 ####################################################################
 custom_root_start_main () {
-	 start_root_empty #TOGGLE_CUSTOM_ROOT_START_EMPTY
-#OFF#	 start_root_classify #TOGGLE_CUSTOM_ROOT_START_CLASSIFY
-#OFF#	 start_root_start_classify #TOGGLE_CUSTOM_ROOT_START_START_CLASSIFY
-#OFF#	 start_root_rpi_classify #TOGGLE_CUSTOM_ROOT_START_RPI_CLASSIFY
-#OFF#	 start_root_rpi_start_classify #TOGGLE_CUSTOM_ROOT_START_START_RPI_CLASSIFY
-	 start_root_loop #TOGGLE_CUSTOM_ROOT_LOOP
+         start_root_empty #TOGGLE_CUSTOM_ROOT_START_EMPTY
+#OFF#    start_root_classify #TOGGLE_CUSTOM_ROOT_START_CLASSIFY
+#OFF#    start_root_start_classify #TOGGLE_CUSTOM_ROOT_START_START_CLASSIFY
+#OFF#    start_root_rpi_classify #TOGGLE_CUSTOM_ROOT_START_RPI_CLASSIFY
+#OFF#    start_root_rpi_start_classify #TOGGLE_CUSTOM_ROOT_START_START_RPI_CLASSIFY
+         start_root_loop #TOGGLE_CUSTOM_ROOT_LOOP
 }
 
 start_root_loop () {
-	 start_root_empty
-	 while true; do {
-		  echo "$LOOP_QUESTION"
-		  read cmd
-		  exec_loop_cmd $cmd
-	 } done
+         start_root_empty
+         while true; do {
+                  echo "$LOOP_QUESTION"
+                  read cmd
+                  exec_loop_cmd $cmd
+         } done
 }
 
 start_root_empty () {
-	 return
+         return
 }
 
 start_root_classify () {
-	 echo start classifier...[exit termux to cancel]
-	 set_root_start EMPTY
-	 python3 $PROJECT_MAIN_FILE_PATH
+         echo start classifier...[exit termux to cancel]
+         set_root_start EMPTY
+         python3 $PROJECT_MAIN_FILE_PATH
 }
 
 start_root_start_classify () {
-	 set_root_start CLASSIFY
-	 set_exit CLASSIFY
-	 exit
+         set_root_start CLASSIFY
+         set_exit CLASSIFY
+         exit
 }
 
 start_root_rpi_classify () {
-	 echo start classifier...[exit termux to cancel]
-	 set_root_start EMPTY
-	 python3 $PROJECT_RPI_MAIN_FILE_PATH
+         echo start classifier...[exit termux to cancel]
+         set_root_start EMPTY
+         python3 $PROJECT_RPI_MAIN_FILE_PATH
 }
 
 start_root_rpi_start_classify () {
-	 set_root_start RPI_CLASSIFY
-	 set_exit RPI_CLASSIFY
-	 exit
+         set_root_start RPI_CLASSIFY
+         set_exit RPI_CLASSIFY
+         exit
 }
 
 exec_loop_cmd () {
-	 cmd=$1
-	 case $cmd in
-		  1) {
-				project-rpi-classify
-		  };;
-		  *) {
-				echo command not found...
-		  };;
-	 esac
+         cmd=$1
+         case $cmd in
+                  1) {
+                                project-rpi-classify
+                  };;
+                  2) {
+                                project-rpi-import
+                  };;
+                  3) {
+                                project-rpi-exit
+                  };;
+                  *) {
+                                echo command not found...
+                  };;
+         esac
 }
 
 LOOP_QUESTION=$(cat << "EOF2"
 Enter a number to execute a command...
 1. start classifier
+2. import picture and classify
+3. exit
 EOF2
 )
 
