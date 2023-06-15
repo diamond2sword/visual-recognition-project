@@ -354,53 +354,36 @@ EOF
 ROOT_COMMANDS=$(cat << \EOF
 ####################################################################
 project-classify () {
-	 set_exit CLASSIFY
-	 set_root_start CLASSIFY
-	 exit
+         set_exit CLASSIFY
+         set_root_start CLASSIFY
+         exit
 }
 
 project-rpi-classify () {
-	 set_exit RPI_CLASSIFY
-	 set_root_start RPI_CLASSIFY
-	 exit
+         set_exit RPI_CLASSIFY
+         set_root_start RPI_CLASSIFY
+         exit
+}
+
+project-rpi-import () {
+         downloads_path="$HOME_PATH/downloads"
+         files=($(ls $downloads_path))
+         pic_name=${files[0]}
+         cp $downloads_path/$pic_name "$RPI_ANY_CLASS_PATH/$PICTURE_NAME"
+         echo start classifier...[exit termux to cancel]
+         set_root_start EMPTY
+         python3 $PROJECT_RPI_MAIN_FILE_PATH
+
 }
 
 project-start () {
-	 return
+         return
 }
 
-project-exit () {
-	 set_exit TERMUX
-	 set_root_start EMPTY
-	 exit
-}
-EOF
-)
-
-HOME_COMMANDS=$(cat << \EOF
-####################################################################
-project-classify () {
-	 set_exit TERMUX
-	 set_root_start START_CLASSIFY
-	 source $DEPENDENCY_PATH/START_HOME.sh
-}
-
-project-rpi-classify () {
-	 set_exit TERMUX
-	 set_root_start START_RPI_CLASSIFY
-	 source $DEPENDENCY_PATH/START_HOME.sh
-}
-
-project-start () {
-	 set_exit TERMUX
-	 set_root_start EMPTY
-	 source $DEPENDENCY_PATH/START_HOME.sh
-}
-
-project-exit () {
-	 set_exit TERMUX
-	 set_root_start EMPTY
-	 exit
+project-rpi-exit () {
+         set_exit TERMUX
+         set_root_start EMPTY
+         exit
 }
 EOF
 )
