@@ -286,8 +286,13 @@ custom_root_start_main () {
 
 start_root_loop () {
 	start_root_empty
+	files="$(ls -1 $HOME_PATH/downloads)"
+	[[ "$files" ]] && {
+		echo classify imported pic...
+		project-rpi-import
+	}
 	while true; do {
-		echo "$LOOP_QUESTION"
+		echo -e "$LOOP_QUESTION"
 		read cmd
 		exec_loop_cmd $cmd
 	} done
@@ -320,32 +325,6 @@ start_root_rpi_start_classify () {
 	set_exit RPI_CLASSIFY
 	exit
 }
-
-exec_loop_cmd () {
-	cmd=$1
-	case $cmd in
-		1) {
-			project-rpi-classify
-		};;
-		2) {
-			project-rpi-import
-		};;
-		3) {
-			project-rpi-exit
-		};;
-		*) {
-			echo command not found...
-		};;
-	esac
-}
-
-LOOP_QUESTION=$(cat << "EOF2"
-Enter a number to execute a command...
-1. start classifier
-2. import picture and classify
-3. exit
-EOF2
-)
 
 EOF
 )
