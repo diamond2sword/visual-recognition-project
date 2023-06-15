@@ -28,25 +28,25 @@ EOF
 SCRIPTS=$(cat << \EOF
 ####################################################################
 add_sh_suffix_to () {
-        dependency_name=$1
-        file_name=${dependency_name}.sh
-        echo $file_name
+	dependency_name=$1
+	file_name=${dependency_name}.sh
+	echo $file_name
 }
 
 include () {
-        dependency_name=$1
-        file_name=$(add_sh_suffix_to $dependency_name)
-        file_path=$DEPENDENCY_PATH/$file_name
-        shift
-        dependency_args=("$@")
-        bash $file_path ${dependency_args[@]}
-        source $file_path ${dependency_args[@]}
+	dependency_name=$1
+	file_name=$(add_sh_suffix_to $dependency_name)
+	file_path=$DEPENDENCY_PATH/$file_name
+	shift
+	dependency_args=("$@")
+	bash $file_path ${dependency_args[@]}
+	source $file_path ${dependency_args[@]}
 }
 
 include_dependencies_default () {
-        include PATHS
-        include FORCE_INSTALL 5
-        include TOGGLE
+	include PATHS
+	include FORCE_INSTALL 5
+	include TOGGLE
 }
 EOF
 )
@@ -80,115 +80,119 @@ FORCE_INSTALL=$(cat << \EOF
 MAX_FORCE_INSTALL=0
 
 is_number () {
-        (($1 + 0)) &> /dev/null && {
-                return 0
-        }
+	(($1 + 0)) &> /dev/null && {
+		return 0
+	}
 }
-                                                                                        input=$1
+
+input=$1
 is_number $input && {
-        MAX_FORCE_INSTALL=$input
+	MAX_FORCE_INSTALL=$input
 }
 
 is_limited () {
-        (($MAX_FORCE_INSTALL != 0)) && {                                                                return 0
-        }                                                                               }
+	(($MAX_FORCE_INSTALL != 0)) && {
+		return 0
+	}
+}
 
 is_installed () {
-        package_manager=$1
-        package=$2
-        case $package_manager in
-                apt|apt-get) dpkg -s $package &> /dev/null && {
-                        return 0
-                };;
-                pip3) python3 -c "import pkgutil, sys; sys.exit(0 if pkgutil.find_loader(\"$package\") else 1)" || pip3 show $package &> /dev/null && {
-                        return 0
-                };;
-                *) {
-                        echo "$package_manager is not defined."
-                };;
-        esac
+	package_manager=$1
+	package=$2
+	case $package_manager in
+		apt|apt-get) dpkg -s $package &> /dev/null && {
+			return 0
+		};;
+		pip3) python3 -c "import pkgutil, sys; sys.exit(0 if pkgutil.find_loader(\"$package\") else 1)" || pip3 show $package &> /dev/null && {
+			return 0
+		};;
+		*) {
+			echo "$package_manager is not defined."
+		};;
+	esac
 }
 
 is_installed_all () {
-        package_manager=$1
-        shift
-        packages=("$@")
-        for package in ${packages[@]}; do {
-                is_installed $package_manager $package && {
-                        continue
-                }
-                return 1
-        } done
-        return 0
+	package_manager=$1
+	shift
+	packages=("$@")
+	for package in ${packages[@]}; do {
+		is_installed $package_manager $package && {
+			continue
+		}
+		return 1
+	} done
+	return 0
 }
 
 get_sudo_string () {
-        string=""
-        is_installed apt sudo && {
-                string=sudo
-        }
-        echo $string
+	string=""
+	is_installed apt sudo && {
+		string=sudo
+	}
+	echo $string
 }
 
 update () {
-        package_manager=$1
-        sudo=$(get_sudo_string)
-        case $package_manager in
-                apt|apt-get) {
-                        yes | $sudo $package_manager update
-                        yes | $sudo $package_manager upgrade
-                };;
-                pip3) {
-                        $sudo pip3 install --upgrade --no-input pip
-                };;
-                *) {
-                        echo $package_manager is not defined.
-                };;
-        esac
+	package_manager=$1
+	sudo=$(get_sudo_string)
+	case $package_manager in
+		apt|apt-get) {
+			yes | $sudo $package_manager update
+			yes | $sudo $package_manager upgrade
+		};;
+		pip3) {
+			$sudo pip3 install --upgrade --no-input pip
+		};;
+		*) {
+			echo $package_manager is not defined.
+		};;
+	esac
 }
 
 install () {
-        package_manager=$1
-        package=$2
-        sudo=$(get_sudo_string)
-        case $package_manager in
-                apt | apt-get) {
-                        yes | $sudo $package_manager install $package
-                };;
-                pip3) {
-                        $sudo pip3 install --upgrade --no-input $package
-                };;
-                *) {
-                        echo $package_manager is not defined.
-                };;
-        esac
+	package_manager=$1
+	package=$2
+	sudo=$(get_sudo_string)
+	case $package_manager in
+		apt | apt-get) {
+			yes | $sudo $package_manager install $package
+		};;
+		pip3) {
+			$sudo pip3 install --upgrade --no-input $package
+		};;
+		*) {
+			echo $package_manager is not defined.
+		};;
+	esac
 }
 
 install_all () {
-        package_manager=$1
-        shift
-        packages=("$@")
-        for package in ${packages[@]}; do {
-                install $package_manager $package
-        } done
+	package_manager=$1
+	shift
+	packages=("$@")
+	for package in ${packages[@]}; do {
+		install $package_manager $package
+	} done
 }
 
 force_install () {
-        package_manager=$1
-        shift
-        packages=("$@")
-        max_i=$MAX_FORCE_INSTALL
-        i=0
-        while :; do {
-                is_limited && (($i >= $max_i)) && {
-                        break
-                }
-                is_installed_all $package_manager ${packages[@]} && {                                           break
-                }
-                i=$(($i + 1))
-                update $package_manager
-                install_all $package_manager ${packages[@]}
-        } done
+	package_manager=$1
+	shift
+	packages=("$@")
+	max_i=$MAX_FORCE_INSTALL
+	i=0
+	while :; do {
+		is_limited && (($i >= $max_i)) && {
+			break
+		}
+		is_installed_all $package_manager ${packages[@]} && {
+			break
+		}
+		i=$(($i + 1))
+		update $package_manager
+		install_all $package_manager ${packages[@]}
+	} done
 }
 EOF
 )
@@ -197,30 +201,30 @@ EOF
 TOGGLE=$(cat << \EOF
 ####################################################################
 toggle_line_off () {
-        toggle_name=$1
-        file_path=$2
-        toggle_prefix=$TOGGLE_PREFIX
-        sed -e "/$toggle_prefix$toggle_name/ s/^#OFF#//" -i $file_path
-        sed -e "/$toggle_prefix$toggle_name/ s/^/#OFF#/" -i $file_path
+	toggle_name=$1
+	file_path=$2
+	toggle_prefix=$TOGGLE_PREFIX
+	sed -e "/$toggle_prefix$toggle_name/ s/^#OFF#//" -i $file_path
+	sed -e "/$toggle_prefix$toggle_name/ s/^/#OFF#/" -i $file_path
 }
 
 toggle_line_on () {
-        toggle_name=$1
-        file_path=$2
-        toggle_prefix=$TOGGLE_PREFIX
-        sed -e "/$toggle_prefix$toggle_name/ s/^#OFF#//" -i $file_path
+	toggle_name=$1
+	file_path=$2
+	toggle_prefix=$TOGGLE_PREFIX
+	sed -e "/$toggle_prefix$toggle_name/ s/^#OFF#//" -i $file_path
 }
 
 set_root_start () {
-        mode=$1
-        toggle_line_off CUSTOM_ROOT_START $DEPENDENCY_PATH/CUSTOM_ROOT_START.sh
-        toggle_line_on CUSTOM_ROOT_START_$mode $DEPENDENCY_PATH/CUSTOM_ROOT_START.sh
+	mode=$1
+	toggle_line_off CUSTOM_ROOT_START $DEPENDENCY_PATH/CUSTOM_ROOT_START.sh
+	toggle_line_on CUSTOM_ROOT_START_$mode $DEPENDENCY_PATH/CUSTOM_ROOT_START.sh
 }
 
 set_exit () {
-        mode=$1
-        toggle_line_off CUSTOM_EXIT $DEPENDENCY_PATH/CUSTOM_EXIT.sh
-        toggle_line_on CUSTOM_EXIT_$mode $DEPENDENCY_PATH/CUSTOM_EXIT.sh
+	mode=$1
+	toggle_line_off CUSTOM_EXIT $DEPENDENCY_PATH/CUSTOM_EXIT.sh
+	toggle_line_on CUSTOM_EXIT_$mode $DEPENDENCY_PATH/CUSTOM_EXIT.sh
 }
 
 EOF
@@ -230,37 +234,40 @@ EOF
 CUSTOM_EXIT=$(cat << \EOF
 ####################################################################
 custom_exit_main () {
-        set_exit TERMUX
-#OFF#   exit_ubuntu #TOGGLE_CUSTOM_EXIT_UBUNTU
-        exit_termux #TOGGLE_CUSTOM_EXIT_TERMUX
-#OFF#   exit_rpi_classify #TOGGLE_CUSTOM_EXIT_RPI_CLASSIFY
-#OFF#   exit_classify #TOGGLE_CUSTOM_EXIT_CLASSIFY
+	set_exit TERMUX
+#OFF#	exit_ubuntu #TOGGLE_CUSTOM_EXIT_UBUNTU
+	exit_termux #TOGGLE_CUSTOM_EXIT_TERMUX
+#OFF#	exit_rpi_classify #TOGGLE_CUSTOM_EXIT_RPI_CLASSIFY
+#OFF#	exit_classify #TOGGLE_CUSTOM_EXIT_CLASSIFY
 }
 
 exit_classify () {
-        mkdir -p $ANY_CLASS_PATH
-        termux-camera-photo -c 0 $ANY_CLASS_PATH/$PICTURE_NAME
-        source $DEPENDENCY_PATH/START_HOME.sh                                           }
+	mkdir -p $ANY_CLASS_PATH
+	termux-camera-photo -c 0 $ANY_CLASS_PATH/$PICTURE_NAME
+	source $DEPENDENCY_PATH/START_HOME.sh
+}
 
 exit_rpi_classify () {
-        mkdir -p $RPI_ANY_CLASS_PATH
-        while :; do {
-                pic_path="$RPI_ANY_CLASS_PATH/$PICTURE_NAME"
-                termux-camera-photo -c 0 $pic_path                                                      termimage $pic_path
-                echo "is the picture good?[y]: "                                                        read must_stop
-                [[ "$must_stop" == "y" ]] && {
-                        break
-                }
-        } done
-        source $DEPENDENCY_PATH/START_HOME.sh
+	mkdir -p $RPI_ANY_CLASS_PATH
+	while :; do {
+		pic_path="$RPI_ANY_CLASS_PATH/$PICTURE_NAME"
+		termux-camera-photo -c 0 $pic_path
+		termimage $pic_path
+		echo "is the picture good?[y]: "
+		read must_stop
+		[[ "$must_stop" == "y" ]] && {
+			break
+		}
+	} done
+	source $DEPENDENCY_PATH/START_HOME.sh
 }
 
 exit_termux () {
-        exit
+	exit
 }
 
 exit_ubuntu () {
-        return
+	return
 }
 
 EOF
@@ -269,67 +276,67 @@ EOF
 CUSTOM_ROOT_START=$(cat << \EOF
 ####################################################################
 custom_root_start_main () {
-        start_root_empty #TOGGLE_CUSTOM_ROOT_START_EMPTY
-#OFF#   start_root_classify #TOGGLE_CUSTOM_ROOT_START_CLASSIFY
-#OFF#   start_root_start_classify #TOGGLE_CUSTOM_ROOT_START_START_CLASSIFY
-#OFF#   start_root_rpi_classify #TOGGLE_CUSTOM_ROOT_START_RPI_CLASSIFY
-#OFF#   start_root_rpi_start_classify #TOGGLE_CUSTOM_ROOT_START_START_RPI_CLASSIFY
-        start_root_loop #TOGGLE_CUSTOM_ROOT_LOOP
+	start_root_empty #TOGGLE_CUSTOM_ROOT_START_EMPTY
+#OFF#	start_root_classify #TOGGLE_CUSTOM_ROOT_START_CLASSIFY
+#OFF#	start_root_start_classify #TOGGLE_CUSTOM_ROOT_START_START_CLASSIFY
+#OFF#	start_root_rpi_classify #TOGGLE_CUSTOM_ROOT_START_RPI_CLASSIFY
+#OFF#	start_root_rpi_start_classify #TOGGLE_CUSTOM_ROOT_START_START_RPI_CLASSIFY
+	start_root_loop #TOGGLE_CUSTOM_ROOT_LOOP
 }
 
 start_root_loop () {
-        start_root_empty
-        while true; do {
-                echo "$LOOP_QUESTION"
-                read cmd
-                exec_loop_cmd $cmd
-        } done
+	start_root_empty
+	while true; do {
+		echo "$LOOP_QUESTION"
+		read cmd
+		exec_loop_cmd $cmd
+	} done
 }
 
 start_root_empty () {
-        return
+	return
 }
 
 start_root_classify () {
-        echo start classifier...[exit termux to cancel]
-        set_root_start EMPTY
-        python3 $PROJECT_MAIN_FILE_PATH
+	echo start classifier...[exit termux to cancel]
+	set_root_start EMPTY
+	python3 $PROJECT_MAIN_FILE_PATH
 }
 
 start_root_start_classify () {
-        set_root_start CLASSIFY
-        set_exit CLASSIFY
-        exit
+	set_root_start CLASSIFY
+	set_exit CLASSIFY
+	exit
 }
 
 start_root_rpi_classify () {
-        echo start classifier...[exit termux to cancel]
-        set_root_start EMPTY
-        python3 $PROJECT_RPI_MAIN_FILE_PATH
+	echo start classifier...[exit termux to cancel]
+	set_root_start EMPTY
+	python3 $PROJECT_RPI_MAIN_FILE_PATH
 }
 
 start_root_rpi_start_classify () {
-        set_root_start RPI_CLASSIFY
-        set_exit RPI_CLASSIFY
-        exit
+	set_root_start RPI_CLASSIFY
+	set_exit RPI_CLASSIFY
+	exit
 }
 
 exec_loop_cmd () {
-        cmd=$1
-        case $cmd in
-                1) {
-                        project-rpi-classify
-                };;
-                2) {
-                        project-rpi-import
-                };;
-                3) {
-                        project-rpi-exit
-                };;
-                *) {
-                        echo command not found...
-                };;
-        esac
+	cmd=$1
+	case $cmd in
+		1) {
+			project-rpi-classify
+		};;
+		2) {
+			project-rpi-import
+		};;
+		3) {
+			project-rpi-exit
+		};;
+		*) {
+			echo command not found...
+		};;
+	esac
 }
 
 LOOP_QUESTION=$(cat << "EOF2"
@@ -340,49 +347,50 @@ Enter a number to execute a command...
 EOF2
 )
 
-EOF                                                                                     )
+EOF
+)
 
 
 ROOT_COMMANDS=$(cat << \EOF
 ####################################################################
 project-classify () {
-        set_exit CLASSIFY
-        set_root_start CLASSIFY
-        exit
+	set_exit CLASSIFY
+	set_root_start CLASSIFY
+	exit
 }
 
 project-rpi-classify () {
-        set_exit RPI_CLASSIFY
-        set_root_start RPI_CLASSIFY
-        exit
+	set_exit RPI_CLASSIFY
+	set_root_start RPI_CLASSIFY
+	exit
 }
 
 project-rpi-import () {
-        downloads_path="$HOME_PATH/downloads"
-        mkdir -p $downloads_path
-        files=("$(ls -1 $downloads_path)")
-        ! [[ "$files" ]] && {
-                echo "No files found, import a file by sharing it to termux."
-                return
-        }
-        pic_name="${files[0]}"
-        cp "$downloads_path/$pic_name" "$RPI_ANY_CLASS_PATH/$PICTURE_NAME"
-        for file in "${files[@]}"; {
-                rm "$downloads_path/$file"
-        }
-        echo start classifier...[exit termux to cancel]
-        set_root_start EMPTY
-        python3 $PROJECT_RPI_PATH/import_classifiers.py
+	downloads_path="$HOME_PATH/downloads"
+	mkdir -p $downloads_path
+	files=("$(ls -1 $downloads_path)")
+	! [[ "$files" ]] && {
+		echo "No files found, import a file by sharing it to termux."
+		return
+	}
+	pic_name="${files[0]}"
+	cp "$downloads_path/$pic_name" "$RPI_ANY_CLASS_PATH/$PICTURE_NAME"
+	for file in "${files[@]}"; {
+		rm "$downloads_path/$file"
+	}
+	echo start classifier...[exit termux to cancel]
+	set_root_start EMPTY
+	python3 $PROJECT_RPI_PATH/import_classifiers.py
 }
 
 project-start () {
-        return
+	return
 }
 
 project-rpi-exit () {
-        set_exit TERMUX
-        set_root_start EMPTY
-        exit
+	set_exit TERMUX
+	set_root_start EMPTY
+	exit
 }
 EOF
 )
@@ -392,67 +400,72 @@ EOF
 START_ROOT=$(cat << \EOF
 ####################################################################
 autostart () {
-        include_dependency_strings
-        include_dependency_scripts
-        include_root_commands
-        fix_unresolved_hostname_error
-        execute_for_first_boot #TOGGLE_FIRST_BOOT
-        execute_custom_root_start                                                       }
+	include_dependency_strings
+	include_dependency_scripts
+	include_root_commands
+	fix_unresolved_hostname_error
+	execute_for_first_boot #TOGGLE_FIRST_BOOT
+	execute_custom_root_start
+}
 
 execute_custom_root_start () {
-        source $DEPENDENCY_PATH/CUSTOM_ROOT_START.sh
-        custom_root_start_main
+	source $DEPENDENCY_PATH/CUSTOM_ROOT_START.sh
+	custom_root_start_main
 }
-                                                                                        execute_for_first_boot () {
-        disable_first_boot                                                                      install_expect                                                                          install_dependency_packages
-        install_visual_recognition_project
-        $RUN_PROJECT_AT_START && {
-                project-rpi-classify                                                            }
+
+execute_for_first_boot () {
+	disable_first_boot
+	install_expect
+	install_dependency_packages
+	install_visual_recognition_project
+	$RUN_PROJECT_AT_START && {
+		project-rpi-classify
+	}
 }
 
 install_visual_recognition_project () {
-        mkdir -p $PROJECT_PATH
-        svn export --force $PROJECT_GITHUB_LINK $PROJECT_PATH
-        svn export --force $PROJECT_RPI_GITHUB_LINK $PROJECT_RPI_PATH
-        python3 $PROJECT_PATH/$PROJECT_INSTALL_NAME
-        python3 $PROJECT_RPI_PATH/$PROJECT_INSTALL_NAME
+	mkdir -p $PROJECT_PATH
+	svn export --force $PROJECT_GITHUB_LINK $PROJECT_PATH
+	svn export --force $PROJECT_RPI_GITHUB_LINK $PROJECT_RPI_PATH
+	python3 $PROJECT_PATH/$PROJECT_INSTALL_NAME
+	python3 $PROJECT_RPI_PATH/$PROJECT_INSTALL_NAME
 }
 
 install_dependency_packages () {
-        packages=("$PACKAGES_FOR_ROOT")
-        pip3_packages=("$PIP3_PACKAGES_FOR_ROOT")
-        force_install apt ${packages[@]}
-        force_install pip3 ${pip3_packages[@]}
+	packages=("$PACKAGES_FOR_ROOT")
+	pip3_packages=("$PIP3_PACKAGES_FOR_ROOT")
+	force_install apt ${packages[@]}
+	force_install pip3 ${pip3_packages[@]}
 }
 
 install_expect () {
-        ln -fs /usr/share/zoneinfo/$ZONE_INFO /etc/localtime
-        DEBIAN_FRONTEND=noninteractive force_install apt tzdata
-        dpkg-reconfigure --frontend noninteractive tzdata
-        yes | apt install expect
+	ln -fs /usr/share/zoneinfo/$ZONE_INFO /etc/localtime
+	DEBIAN_FRONTEND=noninteractive force_install apt tzdata
+	dpkg-reconfigure --frontend noninteractive tzdata
+	yes | apt install expect
 }
 
 disable_first_boot () {
-        toggle_line_off FIRST_BOOT $DEPENDENCY_PATH/START_ROOT.sh
-        return
+	toggle_line_off FIRST_BOOT $DEPENDENCY_PATH/START_ROOT.sh
+	return
 }
 
 fix_unresolved_hostname_error () {
-        config="$ETC_HOSTS_CONFIG"
-        echo "$config" > "/etc/hosts"
+	config="$ETC_HOSTS_CONFIG"
+	echo "$config" > "/etc/hosts"
 }
 
 include_root_commands () {
-        source $DEPENDENCY_PATH/ROOT_COMMANDS.sh
+	source $DEPENDENCY_PATH/ROOT_COMMANDS.sh
 }
 
 include_dependency_scripts () {
-        source $DEPENDENCY_PATH/SCRIPTS.sh
-        include_dependencies_default
+	source $DEPENDENCY_PATH/SCRIPTS.sh
+	include_dependencies_default
 }
 
 include_dependency_strings () {
-        source $DEPENDENCY_PATH/STRINGS.sh
+	source $DEPENDENCY_PATH/STRINGS.sh
 }
 
 DEPENDENCY_PATH="/data/data/com.termux/files/home/dependency-files"
@@ -465,36 +478,40 @@ EOF
 
 
 START_HOME=$(cat << \EOF
-####################################################################                    autostart () {
-        include_dependency_strings
-        include_dependency_scripts
-        include_home_commands
-        start_ubuntu
-        execute_custom_exit
-}                                                                                       
-execute_custom_exit () {                                                                        source $DEPENDENCY_PATH/CUSTOM_EXIT.sh
-        custom_exit_main
+####################################################################
+autostart () {
+	include_dependency_strings
+	include_dependency_scripts
+	include_home_commands
+	start_ubuntu
+	execute_custom_exit
+}
+
+execute_custom_exit () {
+	source $DEPENDENCY_PATH/CUSTOM_EXIT.sh
+	custom_exit_main
 }
 
 include_home_commands () {
-        source $DEPENDENCY_PATH/HOME_COMMANDS.sh
+	source $DEPENDENCY_PATH/HOME_COMMANDS.sh
 }
 
 include_dependency_scripts () {
-        source $DEPENDENCY_PATH/SCRIPTS.sh
-        include_dependencies_default
+	source $DEPENDENCY_PATH/SCRIPTS.sh
+	include_dependencies_default
 }
 
 include_dependency_strings () {
-        source $DEPENDENCY_PATH/STRINGS.sh
+	source $DEPENDENCY_PATH/STRINGS.sh
 }
 
 start_ubuntu () {
-        ubuntu_starter=$CLONE_PATH/startubuntu.sh
-        bash $ubuntu_starter
+	ubuntu_starter=$CLONE_PATH/startubuntu.sh
+	bash $ubuntu_starter
 }
 
-DEPENDENCY_PATH="/data/data/com.termux/files/home/dependency-files"                     
+DEPENDENCY_PATH="/data/data/com.termux/files/home/dependency-files"
+
 autostart
 EOF
 )
@@ -530,66 +547,69 @@ EOF
 
 
 add_sh_suffix_to () {
-        dependency_name=$1
-        file_name=${dependency_name}.sh
-        echo $file_name
+	dependency_name=$1
+	file_name=${dependency_name}.sh
+	echo $file_name
 }
 
 create_file_for () {
-        commands="$1"
-        dependency_name=$2
-        file_name=$(add_sh_suffix_to $dependency_name)
-        file_path=$DEPENDENCY_PATH/$file_name
-        touch $file_path
-        echo "$commands" > $file_path
-        chmod +x $file_path
+	commands="$1"
+	dependency_name=$2
+	file_name=$(add_sh_suffix_to $dependency_name)
+	file_path=$DEPENDENCY_PATH/$file_name
+	touch $file_path
+	echo "$commands" > $file_path
+	chmod +x $file_path
 }
 
 create_dependency_scripts () {
-        mkdir -p $DEPENDENCY_PATH
-        dependency_names=("$DEPENDENCY_NAMES")
-        for dependency_name in ${dependency_names[@]}; do {
-                commands="${!dependency_name}"                                                          create_file_for "$commands" $dependency_name
-        } done
+	mkdir -p $DEPENDENCY_PATH
+	dependency_names=("$DEPENDENCY_NAMES")
+	for dependency_name in ${dependency_names[@]}; do {
+		commands="${!dependency_name}"
+		create_file_for "$commands" $dependency_name
+	} done
 }
 
 include_dependency_strings () {
-        eval "$STRINGS"
-}                                                                                       
-include_dependency_scripts () {                                                                 source $DEPENDENCY_PATH/SCRIPTS.sh
-        include_dependencies_default
+	eval "$STRINGS"
+}
+
+include_dependency_scripts () {
+	source $DEPENDENCY_PATH/SCRIPTS.sh
+	include_dependencies_default
 }
 
 install_dependency_packages () {
-        packages=("$PACKAGES_FOR_HOME")
-        force_install apt ${packages[@]}
+	packages=("$PACKAGES_FOR_HOME")
+	force_install apt ${packages[@]}
 }
 
 install_ubuntu_root_fs () {
-        git clone https://github.com/MFDGaming/ubuntu-in-termux.git $CLONE_PATH
-        ubuntu_installer=$CLONE_PATH/ubuntu.sh
-        chmod +x $ubuntu_installer
-        cd $CLONE_PATH
-        yes | bash $ubuntu_installer
+	git clone https://github.com/MFDGaming/ubuntu-in-termux.git $CLONE_PATH
+	ubuntu_installer=$CLONE_PATH/ubuntu.sh
+	chmod +x $ubuntu_installer
+	cd $CLONE_PATH
+	yes | bash $ubuntu_installer
 }
 
 add_autostarter_scripts () {
-        echo "source $DEPENDENCY_PATH/START_ROOT.sh" >> $BASHRC_PATH
-        echo "source $DEPENDENCY_PATH/START_HOME.sh" >> $OLD_BASHRC_PATH
+	echo "source $DEPENDENCY_PATH/START_ROOT.sh" >> $BASHRC_PATH
+	echo "source $DEPENDENCY_PATH/START_HOME.sh" >> $OLD_BASHRC_PATH
 }
 
 start_ubuntu_fs () {
-        source $DEPENDENCY_PATH/START_HOME.sh
+	source $DEPENDENCY_PATH/START_HOME.sh
 }
 
 get_ubuntu_root_fs () {
-        include_dependency_strings
-        create_dependency_scripts
-        include_dependency_scripts
-        install_dependency_packages
-        install_ubuntu_root_fs
-        add_autostarter_scripts
-        start_ubuntu_fs
+	include_dependency_strings
+	create_dependency_scripts
+	include_dependency_scripts
+	install_dependency_packages
+	install_ubuntu_root_fs
+	add_autostarter_scripts
+	start_ubuntu_fs
 }
 
 get_ubuntu_root_fs
