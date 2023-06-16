@@ -1,7 +1,7 @@
 {
     "Abelmoschus-esculentus": {
         "links": [
-            "https://www.youtube.com/watch?v=liJ-WM_YHdg"
+            "https://www.youtube.com/watch?v=66tb2njDowY"
         ],
         "strings": {
             "explain": {
@@ -31,7 +31,7 @@
     },
     "Brassica-rapa": {
         "links": [
-            "https://www.youtube.com/watch?v=hJ2AwHIMtfY"
+            "https://www.youtube.com/watch?v=IrhjppIHgGk"
         ],
         "strings": {
             "explain": {
@@ -39,7 +39,7 @@
                     "Pechay (Bok Choy)"
                 ],
                 "2_scientific_name": [
-                    "Brassica rapa subsp. chinensis"
+                    "Brassica rapa"
                 ],
                 "3_medicinal_properties": [
                     "\u2022 Lower risk of developing lung, prostate, and colon cancer.",
@@ -54,14 +54,13 @@
             },
             "search_query": [
                 "Brassica rapa",
-                "Brassica rapa subsp. chinensis",
                 "Pechay (Bok Choy)"
             ]
         }
     },
     "Capsicum-frutescens": {
         "links": [
-            "https://www.youtube.com/watch?v=oStXk4VBtGQ"
+            "https://www.youtube.com/watch?v=BJSqyNGoDuM"
         ],
         "strings": {
             "explain": {
@@ -95,7 +94,7 @@
     },
     "None": {
         "links": [
-            "https://www.youtube.com/watch?v=9v6ehN9i_Fg"
+            "https://www.youtube.com/watch?v=F-toa5fk_Ds"
         ],
         "strings": {
             "explain": {
@@ -117,30 +116,28 @@
             ]
         }
     },
-    "Solanum-lycopersicum": {
+    "Lycopersicon-esculentum": {
         "links": [
-            "https://www.youtube.com/watch?v=ez0-NTBiCWs"
+            "https://www.youtube.com/watch?v=KnQ58LrkOA8"
         ],
         "strings": {
             "explain": {
                 "1_common_name": [
-                    "Kamatis"
+                    "Kamatis (Tomato)"
                 ],
                 "2_scientific_name": [
-                    "Solanum Lycopersicum"
+                    "Lycopersicon esculentum"
                 ],
                 "3_medicinal_properties": [
-                    "\u2022 Considered a mild aperient, a promoter of gastric secretion, and a blood purifier.",
-                    "\u2022 Also considered an intestinal antiseptic, with a cleansing effect in the enteric portion of the intestinal tract.",
-                    "\u2022 Considered antioxidant from the carotene lycopene.",
-                    "\u2022 Tomatoes also contain lycopene, p-coumaric acid and cholorogenic acid, all claims have been made that it might be helpful in reducing cancer risks.",
-                    "\u2022 Prevention of lead adverse effects.",
-                    "\u2022 Radioprotective.",
-                    "\u2022 Antioxidant, antimicrobial, and anti-Inflammatory.",
-                    "\u2022 Antimutagenic / anticlastogenic."
+                    "\u2022 Prevents scurvy, has a soothing effect, is antitoxic, disinfectant, laxative and tonic.",
+                    "\u2022 Constipation, scrofula or tuberculosis of the neck, neuritis or inflammation of a nerve, liver problems, mental strain, arthritis, polyneuritis or inflammation of several nerves, rheumatism and indigestion.",
+                    "\u2022 Burns, sunburns, insect bites, piles, tumours, swollen eyes, warts, coms and wounds.",
+                    "\u2022 Soothing poultice for inflammations in general.",
+                    "\u2022 Tonsillitis and throat inflammations.",
+                    "\u2022 Nephritis or inflammatory disease of the kidney."
                 ],
                 "4_basic_needs": [
-                    "Tomatoes need fertile well-drained garden soil, full sun, warmth, and moderate water.\u00a0They prefer moist, loamy, and slightly acidic soil with a pH of\u00a05.8\u00a0to 6.8.\u00a0Keep the soil consistently watered to avoid blossom end rot and splitting fruit.\u00a0 While they need decent nutrition, too much fertilizer,\u00a0especially nitrogen,\u00a0can lead to extensive leafy growth with little fruit production.\u00a0They also prefer temperatures between 70 to 75 degrees Fahrenheit."
+                    "Tomato plants thrive in well-drained soil that receives full light for the majority of the day. Silt loamy soils, clay loamy soils and loamy soils are ideal. The pH of the soil should be somewhat acidic 6.2 to 6.8. Tomato seedlings should be kept at a consistent temperature of 558\u00b0 - 60\u00b0 Fahrenheit."
                 ]
             },
             "search_query": [
@@ -151,7 +148,7 @@
     },
     "Solanum-melongena": {
         "links": [
-            "https://www.youtube.com/watch?v=JEhfnDo4oWY"
+            "https://www.youtube.com/watch?v=5_D96F8ICbs"
         ],
         "strings": {
             "explain": {
