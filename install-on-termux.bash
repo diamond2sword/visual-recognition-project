@@ -16,6 +16,7 @@ PICTURE_NAME="test.jpg"
 PROJECT_INSTALL_FILE_NAME="install.py"
 PROJECT_MAIN_FILE_NAME="test_onnx.py"
 PROJECT_RPI_MAIN_FILE_NAME="termux_classifiers.py"
+PROJECT_RPI_IMPORT_MAIN_FILE_NAME="import_classifiers.py"
 PROJECT_ANY_CLASS_NAME="Any"
 PROJECT_NAME="project"
 PROJECT_RPI_NAME="project-raspberrypi"
@@ -57,6 +58,7 @@ PATHS=$(cat << \EOF
 ####################################################################
 TERMUX_PATH="/data/data/com.termux"
 HOME_PATH="$TERMUX_PATH/files/home"
+DOWNLOADS_PATH="$HOME_PATH/downloads"
 CLONE_PATH="$HOME_PATH/ubuntu-in-termux"
 UBUNTU_PATH="$CLONE_PATH/ubuntu-fs"
 ROOT_PATH="$UBUNTU_PATH/root"
@@ -72,6 +74,7 @@ RPI_ANY_CLASS_PATH="$RPI_TEST_DATASET_PATH/$PROJECT_ANY_CLASS_NAME"
 PROJECT_INSTALL_NAME="install.py"
 PROJECT_MAIN_FILE_PATH="$PROJECT_PATH/$PROJECT_MAIN_FILE_NAME"
 PROJECT_RPI_MAIN_FILE_PATH="$PROJECT_RPI_PATH/$PROJECT_RPI_MAIN_FILE_NAME"
+PROJECT_IMPORT_MAIN_FILE_PATH="$PROJECT_RPI_PATH/$PROJECT_RPI_IMPORT_MAIN_FILE_NAME"
 EOF
 )
 
@@ -286,9 +289,8 @@ custom_root_start_main () {
 
 start_root_loop () {
 	start_root_empty
-	downloads_path=$HOME_PATH/downloads
-	mkdir -p $downloads_path
-	files="$(ls -1 $downloads_path)"
+	mkdir -p $DOWNLOADS_PATH
+	files="$(ls -1 $DOWNLOADS_PATH)"
 	[[ "$files" ]] && {
 		echo classify imported pic...
 		project-rpi-import
@@ -370,21 +372,20 @@ project-rpi-classify () {
 }
 
 project-rpi-import () {
-	downloads_path="$HOME_PATH/downloads"
-	mkdir -p $downloads_path
-	files=("$(ls -1 $downloads_path)")
+	mkdir -p $DOWNLOADS_PATH
+	files=("$(ls -1 $DOWNLOADS_PATH)")
 	! [[ "$files" ]] && {
 		echo "No files found, import a file by sharing it to termux."
 		return
 	}
 	pic_name="${files[0]}"
-	python3 -c "from PIL import Image;pic = Image.open(\"$downloads_path/$pic_name\");pic = pic.convert(\"RGB\");pic.save(\"$RPI_ANY_CLASS_PATH/$PICTURE_NAME\")"
+	python3 -c "from PIL import Image;pic = Image.open(\"$DOWNLOADS_PATH/$pic_name\");pic = pic.convert(\"RGB\");pic.save(\"$RPI_ANY_CLASS_PATH/$PICTURE_NAME\")"
 	for file in "${files[@]}"; {
-		rm "$downloads_path/$file"
+		rm "$DOWNLOADS_PATH/$file"
 	}
 	echo start classifier...[exit termux to cancel]
 	set_root_start EMPTY
-	python3 $PROJECT_RPI_PATH/import_classifiers.py
+	python3 $PROJECT_RPI_PATH/$PROJECT_IMPORT_MAIN_FILE_PATH
 }
 
 project-start () {
