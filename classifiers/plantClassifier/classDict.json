@@ -6,7 +6,7 @@
         "strings": {
             "explain": {
                 "1_common_name": [
-                    "Okra (Lady's Finger)"
+                    "Okra"
                 ],
                 "2_scientific_name": [
                     "Abelmoschus esculentus"
@@ -20,7 +20,13 @@
                     "\u2022 Controls pneumonia, bronchitis, urinary problems, heart diseases and tuberculosis of the lungs."
                 ],
                 "4_basic_needs": [
-                    "Okra needs full sun and hot weather with evening temperatures that are in the 60s (Fahrenheit) or warmer. Soil needs to be fertile and well-drained neutral pH of 6.5 to 7.0."
+                    "Okra needs full sun and hot weather with evening temperatures that are in the 60\u00b0 Fahrenheit or warmer, typically 65\u00b0-75\u00b0 Fahrenheit. Soil needs to be fertile and well-drained neutral pH of 6.5 to 7.0."
+                ],
+                "5_how_to_use": [
+                    "\u2022 The leaves are recommended for patients with pneumonia and bronchitis as a heated poultice or patch, as well as in decoction or boiling. ",
+                    "\u2022 Flowers and fruit may also be cooked or decocted to extract the essence of Okra and then combined with honey to produce a simple okra tea that is great for individuals suffering from pneumonia and bronchitis.",
+                    "\u2022 A decoction of the root is advised for irritated mucous membranes of the urethra and vagina, infectious venereal infections, and other genital issues.",
+                    "\u2022 The seeds are used to treat cardiac problems. They are roasted and made into tea (4-5 cups per day are advised)."
                 ]
             },
             "search_query": [
@@ -36,7 +42,7 @@
         "strings": {
             "explain": {
                 "1_common_name": [
-                    "Pechay (Bok Choy)"
+                    "Bok Choy"
                 ],
                 "2_scientific_name": [
                     "Brassica rapa"
@@ -49,7 +55,10 @@
                     "\u2022 Helps with sleep, muscle movement, learning, and memory."
                 ],
                 "4_basic_needs": [
-                    "Pechay needs to receive atleast 4 to 6 hours of direct sunlight,water, fertilizer,and a places with tempersture between 18\u00b0C (64.4\u00b0F) to 29.44\u00b0C (85\u00b0F)."
+                    "Pechay needs to receive atleast 4 to 6 hours of direct sunlight,water, fertilizer,and a places with tempersture between 64.4\u00b0 Fahrenheit to 85\u00b0 Fahrenheit. Plant them with at least 4 inches of separation between plants in soil with pH ranging from 5.5-6.5."
+                ],
+                "5_how_to_use": [
+                    "Consumption of cooked Bok choy has been demonstrated to benefit an individual's overall health, ranging from heart health to bone health. It is high in potassium, vitamin A, calcium, magnesium, iron, and vitamin C."
                 ]
             },
             "search_query": [
@@ -65,7 +74,7 @@
         "strings": {
             "explain": {
                 "1_common_name": [
-                    "Sili (Chilli)"
+                    "Chili"
                 ],
                 "2_scientific_name": [
                     "Capsicum frutescens"
@@ -82,37 +91,20 @@
                     "\u2022 For relief from toothaches, inflamed tonsils and early stages of throat diseases in children."
                 ],
                 "4_basic_needs": [
-                    "Chili pepper plants need well-draining soil that is rich in organic matter, sunny location, sufficient water and fertilizer."
+                    "Chili plants need well-draining soil that is rich in organic matter, sunny location, sufficient water and fertilizer. Keep them warm with temperatures ranging from 80\u00b0-85\u00b0 Fahrenheit. Plant them 18-36 inches apart and 2-3 feet between rows in soil with pH around 7.4-7.6."
+                ],
+                "5_how_to_use": [
+                    "\u2022 The fruits are beneficial for stomach and intestinal discomfort. ",
+                    "\u2022 Consuming little amounts of fresh fruit will boost hunger.",
+                    "\u2022 Combine chili powder and a tiny quantity of water to produce an adhesive to affected areas for treating rheumatism, arthritis, chest discomfort, and inflamed pericardium (the lining of the heart).",
+                    "\u2022 A decoction or boiling of the leaf is beneficial for oral disorders.",
+                    "\u2022 To relieve toothache, remove the juice from the fruit, dip a cotton ball in it, and apply it after cleaning the cavity."
                 ]
             },
             "search_query": [
                 "Sili (Chilli)",
                 "Capsicum frutescens",
                 "Chili pepper plants"
-            ]
-        }
-    },
-    "None": {
-        "links": [
-            "https://www.youtube.com/watch?v=F-toa5fk_Ds"
-        ],
-        "strings": {
-            "explain": {
-                "1_common_name": [
-                    "None"
-                ],
-                "2_scientific_name": [
-                    "None none"
-                ],
-                "3_medicinal_properties": [
-                    "medicinal properties of None"
-                ],
-                "4_basic_needs": [
-                    "basic needs of None"
-                ]
-            },
-            "search_query": [
-                "images of flat surface"
             ]
         }
     },
@@ -123,7 +115,7 @@
         "strings": {
             "explain": {
                 "1_common_name": [
-                    "Kamatis (Tomato)"
+                    "Tomato"
                 ],
                 "2_scientific_name": [
                     "Lycopersicon esculentum"
@@ -137,12 +129,47 @@
                     "\u2022 Nephritis or inflammatory disease of the kidney."
                 ],
                 "4_basic_needs": [
-                    "Tomato plants thrive in well-drained soil that receives full light for the majority of the day. Silt loamy soils, clay loamy soils and loamy soils are ideal. The pH of the soil should be somewhat acidic 6.2 to 6.8. Tomato seedlings should be kept at a consistent temperature of 558\u00b0 - 60\u00b0 Fahrenheit."
+                    "Tomato plants thrive in well-drained soil that receives full light for the majority of the day silt loamy soils, clay loamy soils and loamy soils are ideal. The pH of the soil should be somewhat acidic 6.2 to 6.8. Tomato seedlings should be kept at a consistent temperature of 58\u00b0- 60\u00b0 Fahrenheit."
+                ],
+                "5_how_to_use": [
+                    "\u2022 Consuming a completely ripe tomato prevents scurvy (a condition caused by a deficiency of vitamin C).",
+                    "\u2022 Fruit consumption aids in the treatment of constipation, lymph gland tuberculosis in the neck, neuritis, liver issues, mental strain, arthritis, polyneuritis, rheumatism, and indigestion. (Note* It should be consumed in large quantities however it should not be combined with starch.)",
+                    "\u2022 Apply ripe tomatoes directly to burns, sunburns, bug bites, piles, tumors, inflamed eyes, warts, and wounds.",
+                    "\u2022 Pounded leaves can be placed directly to regions of irritation and wrapped with fabric to form a poultice.",
+                    "\u2022 Green tomato juice can be used as a gargle for tonsillitis and general throat discomfort.",
+                    "\u2022 Patients suffering from nephritis or renal inflammation might benefit from a mixture of ripe fruit juice and celery. Take 2 to 3 cups each day to help with this."
                 ]
             },
             "search_query": [
                 "Kamatis (Tomato)",
                 "Solanum Lycopersicum"
+            ]
+        }
+    },
+    "None": {
+        "links": [
+            "https://www.youtube.com/watch?v=F-toa5fk_Ds"
+        ],
+        "strings": {
+            "explain": {
+                "1_common_name": [
+                    "None"
+                ],
+                "2_scientific_name": [
+                    "None"
+                ],
+                "3_medicinal_properties": [
+                    "None"
+                ],
+                "4_basic_needs": [
+                    "None"
+                ],
+                "5_how_to_use": [
+                    "None"
+                ]
+            },
+            "search_query": [
+                "images of flat surface"
             ]
         }
     },
@@ -153,7 +180,7 @@
         "strings": {
             "explain": {
                 "1_common_name": [
-                    "Talong (Eggplant)"
+                    "Eggplant"
                 ],
                 "2_scientific_name": [
                     "Solanum melongena"
@@ -166,7 +193,12 @@
                     "\u2022 Warts."
                 ],
                 "4_basic_needs": [
-                    "Eggplants are warm-season crops which require a long growing season.They grow best in regions where the daytime temperature is between 26 and 32\u00b0C (80\u201390\u00b0F) and night time temperatures around 21\u00b0C (70\u00b0F). In addition, eggplant is a sun loving plant and should be positioned in an area that receives full sunlight. Plants will perform best when planted in a fertile soil with a pH between 6.3 and 6.8."
+                    "Eggplants are warm-season crops which require a long growing season. They grow best in regions where the daytime temperature is between 80\u201390\u00b0 Fahrenheit. In addition, eggplant is a sun loving plant and should be positioned in an area that receives full sunlight. Plants will perform best when planted in a fertile soil with a pH between 6.3 and 6.8."
+                ],
+                "5_how_to_use": [
+                    "\u2022 The roots are decocted or boiled and consumed to kill parasitic worms.",
+                    "\u2022 The fruit is eaten gently boiled to treat rheumatism, gout, indigestion, and constipation.",
+                    "\u2022 The juice of the fruit is used to treat warts; apply the juice on the warts several times each day."
                 ]
             },
             "search_query": [
