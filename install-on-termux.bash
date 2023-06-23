@@ -336,7 +336,10 @@ exec_loop_cmd () {
 		1) {
 			project-rpi-classify
 		};;
-		2) {
+  		2) {
+    			project-rpi-update
+    		};;
+		3) {
 			project-rpi-exit
 		};;
 		*) {
@@ -359,6 +362,10 @@ EOF
 
 ROOT_COMMANDS=$(cat << \EOF
 ####################################################################
+project-rpi-update () {
+	python3 $PROJECT_RPI_PATH/$PROJECT_INSTALL_NAME
+}
+
 project-classify () {
 	set_exit CLASSIFY
 	set_root_start CLASSIFY
