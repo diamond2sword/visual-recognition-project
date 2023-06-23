@@ -352,7 +352,8 @@ LOOP_QUESTION=$(cat << "EOF2"
 \e[1;96mHOW TO IMPORT: \e[2;36mUse a file manager to share a picture to Termux then click 'Open Directory' to classify it\e[0m
 Enter a number to execute a command...
 1. start classifier
-2. exit
+2. update database and model
+3. exit
 EOF2
 )
 
