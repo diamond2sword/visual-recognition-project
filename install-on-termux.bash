@@ -385,7 +385,7 @@ project-rpi-import () {
 	}
 	echo start classifier...[exit termux to cancel]
 	set_root_start EMPTY
-	python3 $PROJECT_RPI_PATH/$PROJECT_IMPORT_MAIN_FILE_PATH
+	python3 $PROJECT_IMPORT_MAIN_FILE_PATH
 }
 
 project-start () {
