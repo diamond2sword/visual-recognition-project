@@ -65,6 +65,10 @@ declare_git_commands () {
 		ssh_auth_eval "git push -u origin $BRANCH_NAME"
 	}
 
+ 	push_only () {
+		ssh_auth_eval "git push"
+  	}
+
 	reset () {
 		rm -r -f "$REPO_PATH"
 		mkdir -p "$REPO_PATH"
