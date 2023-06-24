@@ -242,6 +242,11 @@ custom_exit_main () {
 	exit_termux #TOGGLE_CUSTOM_EXIT_TERMUX
 #OFF#	exit_rpi_classify #TOGGLE_CUSTOM_EXIT_RPI_CLASSIFY
 #OFF#	exit_classify #TOGGLE_CUSTOM_EXIT_CLASSIFY
+#OFF#	exit_repair #TOGGLE_CUSTOM_EXIT_REPAIR
+}
+
+exit_repair () {
+	
 }
 
 exit_classify () {
@@ -339,7 +344,10 @@ exec_loop_cmd () {
   		2) {
     			project-rpi-update
     		};;
-		3) {
+      		3) {
+			project-rpi-repair
+   		}
+		4) {
 			project-rpi-exit
 		};;
 		*) {
@@ -353,7 +361,8 @@ LOOP_QUESTION=$(cat << "EOF2"
 Enter a number to execute a command...
 1. start classifier
 2. update database and model
-3. exit
+3. repair
+4. exit
 EOF2
 )
 
@@ -363,6 +372,11 @@ EOF
 
 ROOT_COMMANDS=$(cat << \EOF
 ####################################################################
+project-rpi-repair () {
+	set_exit REPAIR
+ 	exit
+}
+
 project-rpi-update () {
 	python3 $PROJECT_RPI_PATH/$PROJECT_INSTALL_NAME
 }
