@@ -348,7 +348,7 @@ exec_loop_cmd () {
     		};;
       		3) {
 			project-rpi-repair
-   		}
+   		};;
 		4) {
 			project-rpi-exit
 		};;
