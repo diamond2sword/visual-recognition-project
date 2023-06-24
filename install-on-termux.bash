@@ -363,7 +363,7 @@ LOOP_QUESTION=$(cat << "EOF2"
 Enter a number to execute a command...
 1. start classifier
 2. update database and model
-3. repair
+3. repair software
 4. exit
 EOF2
 )
