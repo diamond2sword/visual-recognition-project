@@ -284,7 +284,7 @@ exit_ubuntu () {
 }
 
 math_min () {
-	return $(($1 < $2 ? $1 : $2))
+	echo $(($1 < $2 ? $1 : $2))
 }
 
 EOF
