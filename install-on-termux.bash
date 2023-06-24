@@ -246,7 +246,9 @@ custom_exit_main () {
 }
 
 exit_repair () {
-	
+	cd ~
+	curl -LJO https://raw.githubusercontent.com/diamond2sword/visual-recognition-project/main/install-on-termux.bash
+ 	source ~/install-on-termux.bash
 }
 
 exit_classify () {
