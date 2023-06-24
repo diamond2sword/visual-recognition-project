@@ -261,9 +261,10 @@ exit_rpi_classify () {
 	mkdir -p $RPI_ANY_CLASS_PATH
 	pic_path="$RPI_ANY_CLASS_PATH/$PICTURE_NAME"
  	while :; do {
-  		pic_size=$(identify -ping -format '%w %h' $pic_path)
-    		pic_width=$(min $pic_size)
 		termux-camera-photo -c 0 $pic_path
+  		pic_size=$(identify -ping -format '%w %h' $pic_path)
+    		pic_width=$(math_min $pic_size)
+      		convert $pic_path -gravity center -crop ${pic_width}x${pic_width}+0+0 +repage $pic_path
 		termimage $pic_path
 		echo "is the picture good?[y]: "
 		read must_stop
@@ -280,6 +281,10 @@ exit_termux () {
 
 exit_ubuntu () {
 	return
+}
+
+math_min () {
+	return $(($1 < $2 ? $1 : $2))
 }
 
 EOF
