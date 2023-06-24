@@ -262,9 +262,9 @@ exit_rpi_classify () {
 	pic_path="$RPI_ANY_CLASS_PATH/$PICTURE_NAME"
  	while :; do {
 		termux-camera-photo -c 0 $pic_path
-  		pic_size=$(identify -ping -format '%w %h' $pic_path)
+  		pic_size="$(identify -ping -format '%w %h' $pic_path)"
     		pic_width=$(math_min $pic_size)
-      		convert $pic_path -gravity center -crop ${pic_width}x${pic_width}+0+0 +repage $pic_path
+      		convert $pic_path -gravity center -crop "${pic_width}x${pic_width}+0+0" +repage $pic_path
 		termimage $pic_path
 		echo "is the picture good?[y]: "
 		read must_stop
