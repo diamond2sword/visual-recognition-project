@@ -631,8 +631,11 @@ install_ubuntu_root_fs () {
 }
 
 add_autostarter_scripts () {
-	echo "source $DEPENDENCY_PATH/START_ROOT.sh" >> $BASHRC_PATH
-	echo "source $DEPENDENCY_PATH/START_HOME.sh" >> $OLD_BASHRC_PATH
+	mark="AUTOSTARTER"
+	sed -i "/\#$mark/d" $BASHRC_PATH
+ 	sed -i "/\#$mark/d" $OLD_BASHRC_PATH
+	echo "source $DEPENDENCY_PATH/START_ROOT.sh \#$mark" >> $BASHRC_PATH
+	echo "source $DEPENDENCY_PATH/START_HOME.sh \#$mark" >> $OLD_BASHRC_PATH
 }
 
 start_ubuntu_fs () {
