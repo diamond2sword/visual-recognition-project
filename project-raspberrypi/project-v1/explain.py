@@ -9,7 +9,7 @@ def explain(labeledProbabilities):
 	explain_class(label)
 
 def explain_class(classLabel):
-	print_wrapped(f"\nExplaining {classLabel}")
+	print_wrapped(f"\nExplaining {classLabel}:")
 	classDict = class_dict_manager.get_class_dict()
 	explainDict = classDict[classLabel]["strings"]["explain"]
 	for header, descLines in explainDict.items():
