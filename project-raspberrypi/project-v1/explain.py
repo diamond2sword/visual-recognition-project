@@ -2,7 +2,7 @@
 def explain(labeledProbabilities):
 	print_wrapped("\nI am going to explain the result:")
 	pprint.pprint(labeledProbabilities)
-	print_wrapped("\nProbabilities;")
+	print_wrapped("\nProbabilities:")
 	for label, probability in labeledProbabilities:
 		print_wrapped(f"{round(probability * 100, 2):>8}% {label}") 
 	label, probability = labeledProbabilities[0]
